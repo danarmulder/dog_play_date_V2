@@ -56,21 +56,21 @@ RSpec.describe User, :type => :model do
   end
 
   it "validates that a user can have a conversation" do
-    dog_lover = User.create!(first_name: "Lucy",
-                              last_name: "van Pelt",
-                                  email: "ohbrothercharliebrown@gmail.com",
-                                zipcode: "94117",
-                               password: "dogs1234",
-                               )
-     charlie = User.create!(first_name: "Charlie",
+    lucy = User.create!(first_name: "Lucy",
+                        last_name: "van Pelt",
+                            email: "ohbrothercharliebrown@gmail.com",
+                          zipcode: "94117",
+                         password: "dogs1234",
+                         )
+    charlie = User.create!(first_name: "Charlie",
                             last_name: "Brown",
-                               email: "ilovesnoopy@gmail.com",
-                             zipcode: "94117",
-                            password: "dogs1234",
+                                email: "ilovesnoopy@gmail.com",
+                              zipcode: "94117",
+                             password: "dogs1234",
                             )
-    lucys_dog = Conversation.create!(user_id: 1,
-                                    user_id: 2,
-                                    )
+    lucys_conversation = Conversation.create!(user_id: 1,
+                                              user_id: 2,
+                                             )
 
     expect(dog_lover.conversations.length).to eq(1)
   end
