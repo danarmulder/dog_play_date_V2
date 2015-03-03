@@ -1,4 +1,4 @@
-equire "rails_helper"
+require "rails_helper"
 
 RSpec.describe User, :type => :model do
   it "validates that a conversation belongs to two users" do
@@ -39,8 +39,11 @@ RSpec.describe User, :type => :model do
                                               user_id: 2,
                                               )
 
-    message = Message.create!(conversation_id: 1, user_id: 1, body: "Hi Charlie!")
-    expect(charlie.conversations.messages.length).to eq(1)
+    message = Message.create!(conversation_id: 1,
+                                      user_id: 1,
+                                         body: "Hi Charlie!")
+    expect(lucys_conversation.messages.length).to eq(1)
+    expect(lucy.conversations.length).to eq(1)
   end
 
   it "validates the uniqueness of the conversation" do
@@ -62,6 +65,6 @@ RSpec.describe User, :type => :model do
     l_and_c_conversation2 = Conversation.create!(user_id: 1,
                                                 user_id: 2,
                                                 )
-    expect(lucy.conversations.length).to eq(1)                                                                                      
+    expect(lucy.conversations.length).to eq(1)
   end
 end
