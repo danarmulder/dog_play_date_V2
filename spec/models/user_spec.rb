@@ -53,6 +53,7 @@ RSpec.describe User, :type => :model do
                                password: "dogs1234",
                                )
     dog_lover.avatar = "/images/normal/missinguser.jpg"
+    expect(dog_lover.avatar).to ("true")
   end
 
   xit "validates that a user can have a conversation" do

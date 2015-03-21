@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   has_secure_password
-
   has_many :dogs
+  mount_uploader :avatar, AvatarUploader
 
   validates :email, uniqueness: true
   validates :first_name, :last_name, :email, :password, presence: true
