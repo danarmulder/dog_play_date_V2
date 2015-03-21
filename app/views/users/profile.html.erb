@@ -1,0 +1,8 @@
+<%= current_user.full_name %>
+
+<% current_user.dogs.each do |dog| %>
+  <%= dog.name %>
+  <%= link_to "Edit Dog", edit_dog_path(dog) %>
+<% end %>
+
+<%= link_to "Add Dog", new_dog_path %>

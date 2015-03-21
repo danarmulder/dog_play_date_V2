@@ -7,5 +7,12 @@ class ApplicationController < ActionController::Base
     User.find_by(id: session[:user_id])
   end
 
-  helper_method :current_user
+  def authenticate_user
+    if !current_user
+      redirect_to signin_path
+      flash[:notice]= "You must be signed in to do that"
+    end
+  end
+
+  helper_method :current_user, :authenticate_user
 end

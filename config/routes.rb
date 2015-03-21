@@ -7,6 +7,10 @@ Rails.application.routes.draw do
 
    resources :users
 
+   get 'profile' => 'users#profile', as: :profile
+
+   resources :dogs
+
    get '/signup' => 'registration#new', as: :signup
    post '/signup' => 'registration#create'
    get '/signin' => 'authentication#new', as: :signin
