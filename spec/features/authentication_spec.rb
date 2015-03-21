@@ -5,7 +5,7 @@ feature "Sign In" do
     user = User.create!(
       first_name: "Barbara",
       last_name: "Streisand",
-      location: "94117",
+      zipcode: 94117,
       email: "barbarastreisand@aol.com",
       password: "1234",
       password_confirmation: "1234"
@@ -26,7 +26,7 @@ feature "Sign In" do
     user = User.create!(
       first_name: "Barbara",
       last_name: "Streisand",
-      location: "94117",
+      zipcode: 94117,
       email: "barbarastreisand@aol.com",
       password: "1234",
       password_confirmation: "1234"
@@ -38,16 +38,15 @@ feature "Sign In" do
     fill_in "Password", with: "123"
     click_on "signing-user-in-action"
 
-
     expect(page).to have_no_content("Sign Out")
-    expect(page).to have_content("Username / password combination is invalid")
+    expect(page).to have_content("Email/password combination is invalid")
   end
 
   scenario "User signs in with wrong email and is not permitted" do
     user = User.create!(
       first_name: "Barbara",
       last_name: "Streisand",
-      location: "94117",
+      zipcode: "94117",
       email: "barbarastreisand@aol.com",
       password: "1234",
       password_confirmation: "1234"
@@ -61,14 +60,14 @@ feature "Sign In" do
 
 
     expect(page).to have_no_content("Sign Out")
-    expect(page).to have_content("Username / password combination is invalid")
+    expect(page).to have_content("Email/password combination is invalid")
   end
 
   scenario "User tries to sign in with blank fields and is not permitted" do
     user = User.create!(
       first_name: "Barbara",
       last_name: "Streisand",
-      location: "94117",
+      zipcode: "94117",
       email: "barbarastreisand@aol.com",
       password: "1234",
       password_confirmation: "1234"
@@ -82,7 +81,7 @@ feature "Sign In" do
 
 
     expect(page).to have_no_content("Sign Out")
-    expect(page).to have_content("Username / password combination is invalid")
+    expect(page).to have_content("Email/password combination is invalid")
   end
 end
 
@@ -91,7 +90,7 @@ feature "Sign Out" do
     user = User.create!(
       first_name: "Barbara",
       last_name: "Streisand",
-      location: "94117",
+      zipcode: "94117",
       email: "barbarastreisand@aol.com",
       password: "1234",
       password_confirmation: "1234"
