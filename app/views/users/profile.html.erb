@@ -2,7 +2,8 @@
 
 <% current_user.dogs.each do |dog| %>
   <%= dog.name %>
-  <%= link_to "Edit Dog", edit_dog_path(dog) %>
+  <%= link_to "Edit Dog", edit_dog_path(dog), id:"edit-dog-#{dog.id}-action" %>
+  <%= link_to "Remove Dog", dog_path(dog), method: :delete, data: {confirm: "Are you sure?"}, id:"delete-dog-#{dog.id}-action" %>
 <% end %>
 
 <%= link_to "Add Dog", new_dog_path %>

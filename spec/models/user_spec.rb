@@ -39,13 +39,13 @@ RSpec.describe User, :type => :model do
     lucys_dog = Dog.create(name: "Snoopy",
                             breed: "Cartoon",
                             gender: "Male",
-                            user: "1"
+                            user_id: dog_lover.id
                             )
 
     expect(dog_lover.dogs.length).to eq(1)
   end
 
-  xit "validates that a user who signs up without an image has the default image" do
+  it "validates that a user who signs up without an image has the default image" do
     dog_lover = User.create(first_name: "Lucy",
                               last_name: "van Pelt",
                                   email: "ohbrothercharliebrown@gmail.com",

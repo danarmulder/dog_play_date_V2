@@ -65,7 +65,7 @@ feature "CRUD dogs" do
       breed: "Cartoon",
       gender: "Male",
       age: "2",
-      user_id: 1
+      user_id: user.id
     )
 
     visit root_path
@@ -74,11 +74,39 @@ feature "CRUD dogs" do
     fill_in "Password", with: "1234"
     click_on "signing-user-in-action"
     click_on "Barbara Streisand"
-    click_on "edit-dog-1-action"
+    click_on "edit-dog-#{dog.id}-action"
     fill_in "Name", with: "Diva"
     click_on "update-dog"
 
     expect(page).to have_content("Diva")
     expect(page).to have_content("Edit Dog")
+  end
+
+  scenario "User can delete a dog from their account" do
+    user = User.create!(
+      first_name: "Barbara",
+      last_name: "Streisand",
+      zipcode: 94117,
+      email: "barbarastreisand@aol.com",
+      password: "1234",
+      password_confirmation: "1234"
+    )
+    dog = Dog.create!(
+      name: "Snoopy",
+      breed: "Cartoon",
+      gender: "Male",
+      age: "2",
+      user_id: user.id
+    )
+
+    visit root_path
+    click_on "Sign In"
+    fill_in "Email", with: "barbarastreisand@aol.com"
+    fill_in "Password", with: "1234"
+    click_on "signing-user-in-action"
+    click_on "Barbara Streisand"
+    click_on "delete-dog-#{dog.id}-action"
+
+    expect(page).to_not have_content("Snoopy")
   end
 end
