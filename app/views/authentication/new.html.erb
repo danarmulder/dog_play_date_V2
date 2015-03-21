@@ -1,0 +1,10 @@
+<%= form_tag @user, url: signin_path do |f| %>
+  <% if @sign_in_error %>
+    <%= @sign_in_error %>
+  <% end %>
+  <%= label_tag :email %>
+  <%= email_field_tag :email %>
+  <%= label_tag :password %>
+  <%= password_field_tag :password %>
+  <%= submit_tag "Sign In", id: "signing-user-in-action" %>
+<% end %>
