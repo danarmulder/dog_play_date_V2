@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_secure_password
   has_many :dogs
+  has_many :conversations, :foreign_key => :sender_id
   mount_uploader :avatar, AvatarUploader
 
   validates :email, uniqueness: true

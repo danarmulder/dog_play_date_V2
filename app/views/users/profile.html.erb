@@ -7,3 +7,14 @@
 <% end %>
 
 <%= link_to "Add Dog", new_dog_path %>
+
+
+<% @conversations.each do |conversation| %>
+  <% if conversation.sender_id == current_user.id %>
+    <% recipient = User.find(conversation.recipient_id) %>
+  <% else %>
+    <% recipient = User.find(conversation.sender_id) %>
+  <% end %>
+  <%= conversation.messages.last.body %>
+  <%= link_to recipient.user_name, conversation_messages_path(conversation), id:"see-message-from-#{recipient.id}-action"%>
+<% end %>
