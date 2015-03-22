@@ -2,6 +2,9 @@ class User < ActiveRecord::Base
   has_secure_password
   has_many :dogs
   has_many :conversations, :foreign_key => :sender_id
+  has_many :filters
+
+  delegate :breeds, :sizes, :ages, :personalities, :plays, :blocked_users, :genders, :zipcodes, to: :filters
   mount_uploader :avatar, AvatarUploader
 
   validates :email, uniqueness: true

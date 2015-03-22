@@ -6,6 +6,7 @@ class DogsController < ApplicationController
 
   def create
     @dog = current_user.dogs.new(dog_params)
+    @dog.zipcode = current_user.zipcode
     if @dog.save
       redirect_to profile_path
     else
@@ -47,6 +48,7 @@ class DogsController < ApplicationController
       :personality,
       :bio,
       :avatar,
-      :user_id)
+      :user_id,
+      :zipcode)
     end
 end
