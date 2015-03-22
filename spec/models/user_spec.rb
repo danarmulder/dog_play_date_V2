@@ -30,33 +30,21 @@ RSpec.describe User, :type => :model do
   end
 
   it "validates that a user can own a dog" do
-    dog_lover = User.create(first_name: "Lucy",
+    dog_lover = User.create!(first_name: "Lucy",
                               last_name: "van Pelt",
                                   email: "ohbrothercharliebrown@gmail.com",
                                 zipcode: "94117",
                                password: "dogs1234",
                                )
-    lucys_dog = Dog.create(name: "Snoopy",
-                            breed: "Cartoon",
-                            gender: "Male",
-                            user_id: dog_lover.id
-                            )
-
+    lucys_dog = dog_lover.dogs.create!(name: "Snoopy",
+                                      breed: "Cartoon",
+                                      gender: "Male",
+                                      age: 2
+                                      )
     expect(dog_lover.dogs.length).to eq(1)
   end
 
-  it "validates that a user who signs up without an image has the default image" do
-    dog_lover = User.create(first_name: "Lucy",
-                              last_name: "van Pelt",
-                                  email: "ohbrothercharliebrown@gmail.com",
-                                zipcode: "94117",
-                               password: "dogs1234",
-                               )
-    dog_lover.avatar = "/images/normal/missinguser.jpg"
-    expect(dog_lover.avatar).to ("true")
-  end
-
-  xit "validates that a user can have a conversation" do
+  it "validates that a user can have a conversation" do
     lucy = User.create!(first_name: "Lucy",
                         last_name: "van Pelt",
                             email: "ohbrothercharliebrown@gmail.com",
@@ -69,10 +57,10 @@ RSpec.describe User, :type => :model do
                               zipcode: "94117",
                              password: "dogs1234",
                             )
-    lucys_conversation = Conversation.create!(user_id: 1,
-                                              user_id: 2,
+    lucys_conversation = Conversation.create!(sender_id: lucy.id,
+                                              recipient_id: charlie.id,
                                              )
 
-    expect(dog_lover.conversations.length).to eq(1)
+    expect(lucy.conversations.length).to eq(1)
   end
 end

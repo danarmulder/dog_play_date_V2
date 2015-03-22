@@ -109,4 +109,31 @@ feature "CRUD dogs" do
 
     expect(page).to_not have_content("Snoopy")
   end
+
+  scenario "Dog has a default image when no image is added" do
+    user = User.create!(
+      first_name: "Barbara",
+      last_name: "Streisand",
+      zipcode: 94117,
+      email: "barbarastreisand@aol.com",
+      password: "1234",
+      password_confirmation: "1234"
+    )
+    dog = Dog.create!(
+      name: "Snoopy",
+      breed: "Cartoon",
+      gender: "Male",
+      age: "2",
+      user_id: user.id
+    )
+
+    visit root_path
+    click_on "Sign In"
+    fill_in "Email", with: "barbarastreisand@aol.com"
+    fill_in "Password", with: "1234"
+    click_on "signing-user-in-action"
+    click_on "Barbara Streisand"
+
+    expect(page).to have_css("img#dog_image")
+  end
 end

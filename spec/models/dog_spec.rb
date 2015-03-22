@@ -64,20 +64,4 @@ RSpec.describe Dog, :type => :model do
     expect(dog_lover.dogs.length).to eq(0)
   end
 
-  xit "validates that a dog without an image has the default image" do
-    dog_lover = User.create(first_name: "Lucy",
-    last_name: "van Pelt",
-    email: "ohbrothercharliebrown@gmail.com",
-    zipcode: 94117,
-    password: "dogs1234",
-    )
-
-    lucys_dog = Dog.create(name: "Snoopy",
-    breed:"Cartoon",
-    gender: "Male",
-    user_id: 1
-    )
-    expect(lucys_dog.image).to eq("/images/normal/missingdog.jpg")
-  end
-
 end

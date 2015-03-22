@@ -46,6 +46,7 @@ class DogsController < ApplicationController
       :play,
       :personality,
       :bio,
+      :avatar,
       :user_id)
     end
 end

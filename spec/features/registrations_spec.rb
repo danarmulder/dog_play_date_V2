@@ -52,4 +52,18 @@ feature "Sign-Up" do
     expect(page).to have_content("Email has already been taken")
   end
 
+  scenario "User signs up without an image and default image is provided" do
+    visit root_path
+    click_on "Sign Up"
+    fill_in "First name", with: "Robert"
+    fill_in "Last name", with: "Downey Jr."
+    fill_in "Email", with: "sherlockholmes@yahoo.com"
+    fill_in "Zipcode", with: 94117
+    fill_in "Password", with: "1234"
+    fill_in "Password confirmation", with: "1234"
+    click_on "sign-up"
+    click_on "Robert Downey Jr."
+
+    expect(page).to have_css("img#user_image")
+  end
 end
