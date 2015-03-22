@@ -25,6 +25,7 @@ class RegistrationController < ApplicationController
       :age,
       :bio,
       :gender,
+      :avatar,
       :password,
       :password_confirmation
     )

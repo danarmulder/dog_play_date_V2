@@ -1,4 +1,5 @@
 <%= current_user.full_name %>
+<img src=<%= current_user.avatar %>>
 
 <% current_user.dogs.each do |dog| %>
   <%= dog.name %>
