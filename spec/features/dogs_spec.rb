@@ -136,4 +136,5 @@ feature "CRUD dogs" do
 
     expect(page).to have_css("img#dog_image")
   end
+
 end

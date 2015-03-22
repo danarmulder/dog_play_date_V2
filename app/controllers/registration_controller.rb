@@ -8,6 +8,8 @@ class RegistrationController < ApplicationController
     if @user.save
       session[:user_id] = @user.id
       redirect_to new_dog_path
+      filter = @user.filters.new({type: "Zipcode", content: @user.zipcode.to_s})
+      filter.save
     else
       render :new
       flash[:alert]= "User could not be signed up"

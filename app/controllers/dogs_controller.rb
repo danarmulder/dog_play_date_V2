@@ -8,7 +8,7 @@ class DogsController < ApplicationController
     @dog = current_user.dogs.new(dog_params)
     @dog.zipcode = current_user.zipcode
     if @dog.save
-      redirect_to profile_path
+      redirect_to preferences_path
     else
       render :new
     end

@@ -21,6 +21,8 @@ Rails.application.routes.draw do
      resources :messages
    end
 
+   get '/preferences' => 'filters#index', as: :preferences
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
