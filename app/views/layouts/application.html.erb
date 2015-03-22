@@ -10,6 +10,11 @@
 <% if current_user %>
   <%= link_to current_user.full_name, profile_path %>
   <%= link_to "Sign Out", signout_path %>
+  <% if current_user.unread_messages_count > 0 %>
+    <p id="unread_messages_present">
+      <%= current_user.unread_messages_count %>
+    </p>
+  <% end %>
 <% else %>
   <%= link_to "Sign Up", signup_path %>
   <%= link_to "Sign In", signin_path %>

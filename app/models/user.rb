@@ -16,4 +16,17 @@ class User < ActiveRecord::Base
   def user_name
     "#{first_name} #{last_name[0]}."
   end
+
+  def unread_messages_count
+    count = 0
+    conversations.each do |conversation|
+      conversation.messages.each do |message|
+        if message.read == false
+          count += 1
+        end
+      end
+    end
+    count
+  end
+
 end

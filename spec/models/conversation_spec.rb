@@ -5,21 +5,20 @@ RSpec.describe User, :type => :model do
     lucy = User.create!(first_name: "Lucy",
                               last_name: "van Pelt",
                                   email: "ohbrothercharliebrown@gmail.com",
-                                zipcode: "94117",
+                                zipcode: 94117,
                                password: "dogs1234",
                                )
      charlie = User.create!(first_name: "Charlie",
                             last_name: "Brown",
                                email: "ilovesnoopy@gmail.com",
-                             zipcode: "94117",
+                             zipcode: 94117,
                             password: "dogs1234",
                             )
-    lucys_conversation = Conversation.create!(user_id: 1,
-                                              user_id: 2,
+    lucys_conversation = Conversation.create!(sender_id: lucy.id,
+                                            recipient_id: charlie.id,
                                               )
 
     expect(lucy.conversations.length).to eq(1)
-    expect(charlie.conversations.length).to eq(1)
   end
 
   it "validates that a conversation has messages" do
@@ -35,12 +34,12 @@ RSpec.describe User, :type => :model do
                              zipcode: "94117",
                             password: "dogs1234",
                             )
-    lucys_conversation = Conversation.create!(user_id: 1,
-                                              user_id: 2,
+    lucys_conversation = Conversation.create!(sender_id: lucy.id,
+                                            recipient_id: charlie.id,
                                               )
 
-    message = Message.create!(conversation_id: 1,
-                                      user_id: 1,
+    message = Message.create!(conversation_id: lucys_conversation.id,
+                                      user_id: lucy.id,
                                          body: "Hi Charlie!")
     expect(lucys_conversation.messages.length).to eq(1)
     expect(lucy.conversations.length).to eq(1)
@@ -59,11 +58,11 @@ RSpec.describe User, :type => :model do
                              zipcode: "94117",
                             password: "dogs1234",
                             )
-    l_and_c_conversation = Conversation.create!(user_id: 1,
-                                              user_id: 2,
+    l_and_c_conversation = Conversation.create!(sender_id: lucy.id,
+                                              recipient_id: charlie.id,
                                               )
-    l_and_c_conversation2 = Conversation.create!(user_id: 1,
-                                                user_id: 2,
+    l_and_c_conversation2 = Conversation.create!(sender_id: charlie.id,
+                                                recipient_id: lucy.id,
                                                 )
     expect(lucy.conversations.length).to eq(1)
   end
