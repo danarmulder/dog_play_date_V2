@@ -5,7 +5,26 @@ class FiltersController < ApplicationController
     @filters.each do |filter|
       @dogs = filter.filter(@dogs)
     end
-    
+
     @filter = @filters.new
+  end
+
+  def create
+    @filter = current_user.filters.new(filter_params)
+    if @filter.save
+      flash[:alert]= "Your Preferences have been saved"
+    else
+      flash[:alert]="Your preference could not be saved"
+    end
+    redirect_to preferences_path
+  end
+
+  def edit
+    @filter = current_user.filters.find(params[:id])
+  end
+
+  private
+  def filter_params
+    params.require(:filter).permit(:type, :content)
   end
 end
