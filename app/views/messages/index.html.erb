@@ -1,0 +1,12 @@
+<% @messages.each do |message| %>
+  <% if message.body %>
+    <%= message.body %>
+  <% end %>
+<% end %>
+
+
+<%= form_for [@conversation, @message] do |f| %>
+  <%= f.label :body %>
+  <%= f.text_area :body %>
+  <%= f.submit "Send", id:"send" %>
+<% end %>

@@ -1,1 +1,8 @@
-
+WELCOME!
+<% @dogs.each do |dog| %>
+  <%= dog.name %>
+  <%= dog.user.user_name %>
+  <% if current_user %>
+    <%= link_to "Message Me", conversations_path(sender_id: current_user.id, recipient_id: dog.user.id), method: "post", id: "message-user-#{dog.user.id}" %>
+  <% end %>
+<% end %>

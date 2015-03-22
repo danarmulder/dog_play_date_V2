@@ -16,6 +16,11 @@ Rails.application.routes.draw do
    get '/signin' => 'authentication#new', as: :signin
    post '/signin' => 'authentication#create'
    get '/signout' => 'authentication#destroy', as: :signout
+
+   resources :conversations, :except=>[:new, :edit] do
+     resources :messages
+   end
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

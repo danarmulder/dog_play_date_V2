@@ -1,6 +1,7 @@
 class WelcomeController < ApplicationController
+  
   def index
-    @users = User.all
+    @dogs = Dog.all
   end
 
 end

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe User, :type => :model do
+RSpec.describe Dog, :type => :model do
 
   it "validates that a dog belongs to a user" do
     dog_lover = User.create(first_name: "Lucy",
@@ -71,7 +71,7 @@ RSpec.describe User, :type => :model do
     zipcode: 94117,
     password: "dogs1234",
     )
-    
+
     lucys_dog = Dog.create(name: "Snoopy",
     breed:"Cartoon",
     gender: "Male",
