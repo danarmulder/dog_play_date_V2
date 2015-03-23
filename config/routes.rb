@@ -22,6 +22,8 @@ Rails.application.routes.draw do
    end
 
    get '/preferences' => 'filters#index', as: :preferences
+   post '/filters' => 'filters#create'
+   get '/filters/:id/edit' => 'filters#edit', as: :edit_filter
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

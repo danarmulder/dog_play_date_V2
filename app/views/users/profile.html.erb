@@ -10,6 +10,8 @@
 
 <%= link_to "Add Dog", new_dog_path %>
 
+<%= link_to "Preferences", preferences_path, id:"preferences-link" %>
+
 
 <% @conversations.each do |conversation| %>
   <% if conversation.sender_id == current_user.id %>

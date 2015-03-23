@@ -3,3 +3,27 @@ Suggestions
 <% @dogs.each do |dog| %>
   <%= dog.name %>
 <% end %>
+
+<h4>PREFERENCES</h4>
+<ul>
+  <% @filters.each do |filter| %>
+    <% if filter.id != nil %>
+      <li><%= filter.id %> Preference: <%= filter.id %> <%= link_to "Edit Preference", edit_filter_path(filter), id: "edit-filter-#{filter.id}" %></li>
+    <% end %>
+  <% end %>
+</ul>
+
+
+<%= form_for([@user, @filter]) do |f| %>
+  <input id="new-filter-type" name="filter[type]" type="hidden" value="Size">
+  <%= f.label "Size Preference" %>
+  <%= f.text_field :content, id: "size-field" %>
+  <%= f.submit "Submit Size Preference", id: 'size-submit-filters' %>
+<% end %>
+
+<%= form_for([@user, @filter]) do |f| %>
+  <input id="new-filter-type" name="filter[type]" type="hidden" value="Gender">
+  <%= f.label "Gender Preference" %>
+  <%= f.text_field :content, id: "gender-field" %>
+  <%= f.submit "Submit Size Preference", id: 'gender-submit-filters' %>
+<% end %>
