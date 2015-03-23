@@ -1,0 +1,122 @@
+<div class="ui segment">
+  <div class="ui form">
+    <form accept-charset="UTF-8" action="/dogs" method="get">
+    <div class="four fields">
+      <div class="field">
+        <label>Gender:</label>
+        <div class="ui selection dropdown">
+          <div class="default text">Gender</div>
+          <i class="dropdown icon"></i>
+          <input id="g" name="g" type="hidden" />
+          <div class="menu">
+            <div class="item" data-value="Female">Female</div>
+            <div class="item" data-value="Male">Male</div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label for="s">Size</label>
+        <div class="ui selection dropdown">
+          <div class="default text">Size</div>
+          <i class="dropdown icon"></i>
+          <input id="s" name="s" type="hidden" />
+          <div class="menu">
+            <div class="item" data-value="Small">Small</div>
+            <div class="item" data-value="Medium">Medium</div>
+            <div class="item" data-value="Large">Large</div>
+            <div class="item" data-value="Extra-large">Extra Large</div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label for="y">Play</label>
+        <div class="ui selection dropdown">
+          <div class="default text">Play</div>
+          <i class="dropdown icon"></i>
+          <input id="y" name="y" type="hidden" />
+          <div class="menu">
+            <div class="item" data-value="Toy-Oriented">Toy-Oriented</div>
+            <div class="item" data-value="Food-Oriented">Food-Oriented</div>
+            <div class="item" data-value="Tag/Wrestling-Oriented">Tag/Wrestling-Oriented</div>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label for="p">Personality</label>
+        <div class="ui selection dropdown">
+          <div class="default text">Personality</div>
+          <i class="dropdown icon"></i>
+          <input id="p" name="p" type="hidden" />
+          <div class="menu">
+            <div class="item" data-value="Submissive">Submissive</div>
+            <div class="item" data-value="Dominant">Dominant</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <input class="ui submit button" name="commit" type="submit" value="Search" />
+  </div>
+  </form>
+</div>
+
+<div class="ui segment">
+  <div class="ui form">
+    <form accept-charset="UTF-8" action="/dogs" method="get">
+    <div class="field">
+    <div class="ui search">
+      <input class="prompt" id ="n" name="n" type="text" placeholder="Name">
+      <div class="results"></div>
+    </div>
+  </div>
+  <input class="ui submit button" name="commit" type="submit" value="Search" />
+  </div>
+</div>
+
+<div class="ui three column padded page grid">
+  <% @dogs.in_groups(3) do |column_dogs| %>
+  <div class="column">
+    <% column_dogs.each do |dog| %>
+      <% break if dog.nil? %>
+      <div class="ui fluid card">
+        <div class="image dimmable">
+          <div class="ui dimmer">
+            <div class="content">
+              <div class="center">
+                <div class="ui inverted button">Add Friend</div>
+              </div>
+            </div>
+          </div>
+          <%= image_tag(dog.avatar_url) %>
+        </div>
+        <div class="content" data= "">
+          <div class="header"><%= dog.name %></div>
+          <div class="meta">
+            Adoring Human: <%= link_to dog.user.user_name, user_path(dog.user), class: "group" %>
+          </div>
+          <div class="description" data-dog-id=<%="#{dog.id}"%>><%= dog.bio %>...<span><strong>more</strong></span>
+            <div class="inactive" id="more-info">
+              <ul>
+                <li><strong>Breed: </strong> <%= dog.breed %> </li>
+                <li><strong>Age: </strong> <%= dog.age %></li>
+                <li><strong>Gender: </strong><%= dog.gender %></li>
+                <li><strong>Size: </strong><%= dog.size %></li>
+                <li><strong>Play: </strong><%= dog.play %></li>
+                <li><strong>Personality: </strong><%= dog.personality %></li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+        <div class="extra content">
+          <div class="ui avatar image">
+            <%= image_tag(dog.user.avatar_url) %>
+          </div>
+          <% if current_user %>
+          <%= dog.user.user_name  %> <%= link_to 'Message me!', conversations_path(sender_id: current_user.id, recipient_id: dog.user.id), method: 'post'%>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <% end %>
+</div>

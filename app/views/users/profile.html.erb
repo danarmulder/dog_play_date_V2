@@ -1,9 +1,10 @@
 <%= current_user.full_name %>
-<img id="user_image" src=<%= current_user.avatar %>>
+
+<%= image_tag current_user.avatar_url, :class => "user_image"%>
 
 <% current_user.dogs.each do |dog| %>
   <%= dog.name %>
-  <img id="dog_image" src=<%= dog.avatar %>>
+  <%= image_tag dog.avatar_url, :class => "dog_image"%>
   <%= link_to "Edit Dog", edit_dog_path(dog), id:"edit-dog-#{dog.id}-action" %>
   <%= link_to "Remove Dog", dog_path(dog), method: :delete, data: {confirm: "Are you sure?"}, id:"delete-dog-#{dog.id}-action" %>
 <% end %>
