@@ -32,6 +32,12 @@ class FiltersController < ApplicationController
     end
   end
 
+  def destroy
+    @filter = current_user.filters.find(params[:id])
+    @filter.destroy
+    redirect_to profile_path
+  end
+
   private
   def filter_params
     params.require(:filter).permit(:type, :content)

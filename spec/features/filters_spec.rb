@@ -182,7 +182,7 @@ feature "filtering dog friend suggestions" do
     expect(page).to have_content("Lola")
     expect(page).not_to have_content("Lucky")
   end
-  xscenario "user can delete filters" do
+  scenario "user can delete filters" do
     user = User.create!(
       first_name: "Barbara",
       last_name: "Streisand",
