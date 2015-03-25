@@ -17,6 +17,7 @@ feature "CRUD dogs" do
     fill_in "Size", with: "Large"
     fill_in "Gender", with: "Male"
     click_on "add-dog-action"
+    click_on "Robert Downey Jr."
 
     expect(page).to have_content("Iron Dog")
   end
@@ -37,7 +38,7 @@ feature "CRUD dogs" do
     fill_in "Password", with: "1234"
     click_on "signing-user-in-action"
     click_on "Barbara Streisand"
-    click_on "Add Dog"
+    click_on "add-dog-action"
 
     fill_in "Name", with: "Diva"
     fill_in "Breed", with: "West Highland Terrier"
@@ -45,6 +46,7 @@ feature "CRUD dogs" do
     fill_in "Size", with: "Large"
     fill_in "Gender", with: "Female"
     click_on "add-dog-action"
+    click_on "Barbara Streisand"
 
     expect(page).to have_content("Diva")
   end
@@ -77,7 +79,7 @@ feature "CRUD dogs" do
     click_on "update-dog"
 
     expect(page).to have_content("Diva")
-    expect(page).to have_content("Edit Dog")
+    expect(page).to have_content("Edit")
   end
 
   scenario "User can delete a dog from their account" do

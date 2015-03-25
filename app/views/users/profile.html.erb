@@ -61,7 +61,7 @@
       <div class="content">
         <div class="header" data-dog-id ="<%= dog.id %>">
           <div class="ui avatar image">
-            <%= image_tag(dog.avatar) %>
+            <img id="dog_image" src=<%= dog.avatar %>>
           </div>
           <%= dog.name %>
         </div>
@@ -87,6 +87,6 @@
 
 <div class="column padding">
   <div class="ui teal inverted button">
-    <%= link_to "Add Dog", new_dog_path %>
+    <%= link_to "Add Dog", new_dog_path, id:"add-dog-action" %>
   </div>
 </div>
