@@ -240,4 +240,141 @@ feature "filtering dog friend suggestions" do
 
     expect(page).not_to have_content("Breed: Lab")
   end
+  scenario "A user can filter dogs based on Personality" do
+    user = User.create!(
+      first_name: "Barbara",
+      last_name: "Streisand",
+      zipcode: 94117,
+      email: "barbarastreisand@aol.com",
+      password: "1234",
+      password_confirmation: "1234"
+    )
+
+    andrew = User.create!(
+      first_name: "Andrew",
+      last_name: "Garfield",
+      email: "Andrew@Garfield.com",
+      zipcode: 94114,
+      password: "12345678"
+    )
+
+    lola = Dog.create!(
+      name: "Lola",
+      breed: "Lab",
+      age: "5",
+      size: "Large",
+      play: "Toy-Motivated",
+      gender: "Female",
+      personality: "Confident",
+      zipcode: 94117,
+      user_id: andrew.id
+    )
+
+    lucky = Dog.create!(
+      name: "Lucky",
+      breed: "shar pei",
+      age: "2",
+      size: "Medium",
+      play: "Food-Motivated",
+      gender: "Female",
+      personality: "Laidback",
+      zipcode: 94117,
+      user_id: andrew.id
+    )
+
+    puddle = Dog.create!(
+      name: "Puddle",
+      breed: "shar pei",
+      age: "2",
+      size: "Medium",
+      play: "Food-Motivated",
+      gender: "Female",
+      personality: "Laidback",
+      zipcode: 94117,
+      user_id: user.id
+    )
+
+    visit root_path
+    click_on "Sign In"
+    fill_in "Email", with: "barbarastreisand@aol.com"
+    fill_in "Password", with: "1234"
+    click_on "signing-user-in-action"
+    click_on "Barbara Streisand"
+    click_on "preferences-link"
+    select 'Laidback', from: "filter_content"
+    click_on "personality-submit-filters"
+
+    expect(page).to have_content("Lucky")
+    expect(page).not_to have_content("Lola")
+    expect(page).to have_content("Personality Preference: Laidback")
+  end
+  scenario "filters do not include a user's dog" do
+    user = User.create!(
+      first_name: "Barbara",
+      last_name: "Streisand",
+      zipcode: 94117,
+      email: "barbarastreisand@aol.com",
+      password: "1234",
+      password_confirmation: "1234"
+    )
+
+    andrew = User.create!(
+      first_name: "Andrew",
+      last_name: "Garfield",
+      email: "Andrew@Garfield.com",
+      zipcode: 94114,
+      password: "12345678"
+    )
+
+    lola = Dog.create!(
+      name: "Lola",
+      breed: "Lab",
+      age: "5",
+      size: "Large",
+      play: "Toy-Motivated",
+      gender: "Female",
+      personality: "Confident",
+      zipcode: 94117,
+      user_id: andrew.id
+    )
+
+    lucky = Dog.create!(
+      name: "Lucky",
+      breed: "shar pei",
+      age: "2",
+      size: "Medium",
+      play: "Food-Motivated",
+      gender: "Female",
+      personality: "Laidback",
+      zipcode: 94117,
+      user_id: andrew.id
+    )
+
+    puddle = Dog.create!(
+      name: "Puddle",
+      breed: "shar pei",
+      age: "2",
+      size: "Medium",
+      play: "Food-Motivated",
+      gender: "Female",
+      personality: "Laidback",
+      zipcode: 94117,
+      user_id: user.id
+    )
+
+    visit root_path
+    click_on "Sign In"
+    fill_in "Email", with: "barbarastreisand@aol.com"
+    fill_in "Password", with: "1234"
+    click_on "signing-user-in-action"
+    click_on "Barbara Streisand"
+    click_on "preferences-link"
+    select 'Laidback', from: "filter_content"
+    click_on "personality-submit-filters"
+
+    expect(page).to have_content("Lucky")
+    expect(page).not_to have_content("Lola")
+    expect(page).not_to have_content("Puddle")
+    expect(page).to have_content("Personality Preference: Laidback")
+  end
 end
