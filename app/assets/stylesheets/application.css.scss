@@ -13,3 +13,10 @@
  *= require_tree .
  *= require_self
  */
+
+ @import "semantic-ui";
+
+ body {
+  margin: 50 px !important;
+  padding:40px;
+}
