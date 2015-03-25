@@ -19,10 +19,9 @@ feature "CRUD dogs" do
     click_on "add-dog-action"
 
     expect(page).to have_content("Iron Dog")
-    expect(page).to have_content("Edit Dog")
   end
 
-  scenario "User can dog from their profile page" do
+  scenario "User can add dog from their profile page" do
     user = User.create!(
       first_name: "Barbara",
       last_name: "Streisand",
@@ -48,7 +47,6 @@ feature "CRUD dogs" do
     click_on "add-dog-action"
 
     expect(page).to have_content("Diva")
-    expect(page).to have_content("Edit Dog")
   end
 
   scenario "User can edit their dog from their profile page" do

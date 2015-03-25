@@ -23,6 +23,15 @@ class FiltersController < ApplicationController
     @filter = current_user.filters.find(params[:id])
   end
 
+  def update
+    @filter = current_user.filters.find(params[:id])
+    if @filter.update(filter_params)
+      redirect_to preferences_path
+    else
+      render :edit
+    end
+  end
+
   private
   def filter_params
     params.require(:filter).permit(:type, :content)
