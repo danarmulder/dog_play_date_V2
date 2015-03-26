@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   has_many :filters
 
   delegate :breeds, :sizes, :ages, :personalities, :plays, :blocked_users, :genders, :zipcodes, to: :filters
-  mount_uploader :avatar, AvatarUploader
+  mount_uploader :avatar, AvatarUploader, :default_user_url => "/images/fallback/missinguser.jpg"
 
   validates :email, uniqueness: true
   validates :first_name, :last_name, :email, :password, presence: true
