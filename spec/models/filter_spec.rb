@@ -242,7 +242,7 @@ describe Filter, :type => :model do
       first_name: "Penn",
       last_name: "Badgely",
       email: "Penn@badgely.com",
-      zipcode: 94118,
+      zipcode: 94114,
       password: "12345678"
     )
 
@@ -250,7 +250,7 @@ describe Filter, :type => :model do
       first_name: "Andrew",
       last_name: "Garfield",
       email: "Andrew@Garfield.com",
-      zipcode: 94113,
+      zipcode: 94123,
       password: "12345678"
     )
 
@@ -259,12 +259,6 @@ describe Filter, :type => :model do
       user_id: emma.id,
       content: 94118
     )
-
-    # filter = Filter.create!(
-    #   type: "Gender",
-    #   user_id: emma.id,
-    #   content: "Female"
-    # )
 
     puddle = Dog.create!(
       name: "puddle",

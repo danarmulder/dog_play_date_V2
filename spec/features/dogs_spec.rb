@@ -14,8 +14,6 @@ feature "CRUD dogs" do
     fill_in "Name", with: "Iron Dog"
     fill_in "Breed", with: "Doberman"
     fill_in "Age", with: "2"
-    fill_in "Size", with: "Large"
-    fill_in "Gender", with: "Male"
     click_on "add-dog-action"
     click_on "Robert Downey Jr."
 
@@ -43,8 +41,6 @@ feature "CRUD dogs" do
     fill_in "Name", with: "Diva"
     fill_in "Breed", with: "West Highland Terrier"
     fill_in "Age", with: "4"
-    fill_in "Size", with: "Large"
-    fill_in "Gender", with: "Female"
     click_on "add-dog-action"
     click_on "Barbara Streisand"
 

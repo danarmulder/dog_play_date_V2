@@ -8,13 +8,26 @@ Suggestions for
 <ul>
   <% @filters.each do |filter| %>
     <% if filter.id != nil %>
-      <li><%= filter.type %> Preference: <%= filter.content %>
-      <%= link_to "Edit Preference", edit_filter_path(filter), id: "edit-filter-#{filter.id}" %>
-      <%= link_to "Delete Preference", filter_path(filter.id), method: :delete, data: {confirm: "Are you sure you want to delete this preference?"}, id: "delete-filter-#{filter.id}-action" %>
-      </li>
+      <% if filter.type == "Zipcode" %>
+        <li>Based on <%= filter.type %>: <%= filter.content %>
+        <%= link_to "Edit Location", edit_filter_path(filter), id: "edit-filter-#{filter.id}" %>
+        </li>
+      <% else %>
+        <li><%= filter.type %> Preference: <%= filter.content %>
+        <%= link_to "Edit Preference", edit_filter_path(filter), id: "edit-filter-#{filter.id}" %>
+        <%= link_to "Delete Preference", filter_path(filter.id), method: :delete, data: {confirm: "Are you sure you want to delete this preference?"}, id: "delete-filter-#{filter.id}-action" %>
+        </li>
+      <% end %>
     <% end %>
   <% end %>
 </ul>
+
+<%= form_for([@user, @filter]) do |f| %>
+  <input id="new-filter-type" name="filter[type]" type="hidden" value="Breed">
+  <%= f.label "Breed Preference" %>
+  <%= f.text_field :content, id: "breed-field" %>
+  <%= f.submit "Submit Breed Preference", id: 'breed-submit-filters' %>
+<% end %>
 
 <%= form_for([@user, @filter]) do |f| %>
   <input id="new-filter-type" name="filter[type]" type="hidden" value="Size">

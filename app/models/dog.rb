@@ -1,4 +1,5 @@
 class Dog < ActiveRecord::Base
-  validates :name, :gender, :age, presence: true
+  validates :name, :age, presence: true
   belongs_to :user
+  mount_uploader :avatar, AvatarUploader
 end

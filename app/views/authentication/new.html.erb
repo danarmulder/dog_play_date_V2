@@ -1,10 +1,26 @@
-<%= form_tag @user, url: signin_path do |f| %>
-  <% if @sign_in_error %>
-    <%= @sign_in_error %>
-  <% end %>
-  <%= label_tag :email %>
-  <%= email_field_tag :email %>
-  <%= label_tag :password %>
-  <%= password_field_tag :password %>
-  <%= submit_tag "Sign In", id: "signing-user-in-action" %>
-<% end %>
+<h1>Sign In</h1>
+<div class="ui form segment">
+  <%= form_tag @user, url: signin_path do |f| %>
+
+    <% if @sign_in_error %>
+      <%= @sign_in_error %>
+    <% end %>
+    <div class="two fields">
+      <div class="field">
+        <%= label_tag :email %>
+        <div class="field">
+          <%= email_field_tag :email %>
+        </div>
+      </div>
+      <div class="field">
+        <%= label_tag :password %>
+        <div class="field">
+          <%= password_field_tag :password %>
+        </div>
+      </div>
+      <div class="field">
+        <%= submit_tag "Sign In", id: "signing-user-in-action", class: "ui submit button medium" %>
+      </div>
+    </div>
+    <% end %>
+</div>
