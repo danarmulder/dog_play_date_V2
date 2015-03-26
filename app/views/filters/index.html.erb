@@ -1,51 +1,134 @@
-Suggestions for
-<% current_user.dogs.each {|dog| "#{dog.name}, "} %>
-<% @dogs.each do |dog| %>
-  <%= dog.name %>
-<% end %>
-
-<h4>PREFERENCES</h4>
-<ul>
-  <% @filters.each do |filter| %>
-    <% if filter.id != nil %>
-      <% if filter.type == "Zipcode" %>
-        <li>Based on <%= filter.type %>: <%= filter.content %>
-        <%= link_to "Edit Location", edit_filter_path(filter), id: "edit-filter-#{filter.id}" %>
-        </li>
-      <% else %>
-        <li><%= filter.type %> Preference: <%= filter.content %>
-        <%= link_to "Edit Preference", edit_filter_path(filter), id: "edit-filter-#{filter.id}" %>
-        <%= link_to "Delete Preference", filter_path(filter.id), method: :delete, data: {confirm: "Are you sure you want to delete this preference?"}, id: "delete-filter-#{filter.id}-action" %>
-        </li>
-      <% end %>
-    <% end %>
+<div class="ui segment">
+  <p>Suggested Playmates:</p>
+  <% @dogs.each do |dog| %>
+    <%= dog.name %>
   <% end %>
-</ul>
+</div>
 
-<%= form_for([@user, @filter]) do |f| %>
-  <input id="new-filter-type" name="filter[type]" type="hidden" value="Breed">
-  <%= f.label "Breed Preference" %>
-  <%= f.text_field :content, id: "breed-field" %>
-  <%= f.submit "Submit Breed Preference", id: 'breed-submit-filters' %>
-<% end %>
+<h4 class = "header">PREFERENCES</h4>
+<div class="ui segment">
+  <table class="ui table">
+    <thead>
+      <tr>
+        <th>Preference</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @filters.each do |filter| %>
+        <tr>
+        <% if filter.id != nil %>
+          <% if filter.type == "Zipcode" %>
+            <td>Based on <%= filter.type %>: <%= filter.content %></td>
+            <td><%= link_to "Edit Location", edit_filter_path(filter), id: "edit-filter-#{filter.id}" %></td>
+          <% else %>
+            <td><%= filter.type %> Preference: <%= filter.content %></td>
+            <td><%= link_to "Edit Preference", edit_filter_path(filter), id: "edit-filter-#{filter.id}" %></td>
+            <td><%= link_to "Delete Preference", filter_path(filter.id), method: :delete, data: {confirm: "Are you sure you want to delete this preference?"}, id: "delete-filter-#{filter.id}-action" %></td>
+          <% end %>
+        <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<%= form_for([@user, @filter]) do |f| %>
-  <input id="new-filter-type" name="filter[type]" type="hidden" value="Size">
-  <%= f.label "Size Preference" %>
-  <%= f.text_field :content, id: "size-field" %>
-  <%= f.submit "Submit Size Preference", id: 'size-submit-filters' %>
-<% end %>
+</div>
 
-<%= form_for([@user, @filter]) do |f| %>
-  <input id="new-filter-type" name="filter[type]" type="hidden" value="Gender">
-  <%= f.label "Gender Preference" %>
-  <%= f.text_field :content, id: "gender-field" %>
-  <%= f.submit "Submit Size Preference", id: 'gender-submit-filters' %>
-<% end %>
-
-<%= form_for([@user, @filter]) do |f| %>
-  <input id="new-filter-type" name="filter[type]" type="hidden" value="Personality">
-  <%= f.label "Personality Preference" %>
-  <%= f.select :content, Personality.options.map {|opt| opt.humanize}, id: "personality-field" %>
-  <%= f.submit "Submit Personality Preference", id: 'personality-submit-filters' %>
-<% end %>
+<h4 class = "header">Add Preferences</h4>
+<div class="ui sixteen wide  two column segment page grid">
+  <div class="row">
+    <div class="eight wide column">
+      <div class="ui form segment">
+        <%= form_for([@user, @filter]) do |f| %>
+          <div class="field">
+            <%= f.label "Breed Preference" %>
+            <input id="new-filter-type" name="filter[type]" type="hidden" value="Breed">
+            <div class="field">
+              <%= f.text_field :content, id: "breed-field" %>
+            </div>
+          </div>
+          <div class="field">
+            <div class="field">
+              <%= f.submit "Add Breed Preference", id: 'breed-submit-filters', class: "ui button small" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="eight wide column">
+      <div class="ui form segment">
+        <%= form_for([@user, @filter]) do |f| %>
+        <div class="field">
+          <label>Personality Preference</label>
+          <input id="new-filter-type" name="filter[type]" type="hidden" value="Personality">
+          <div class="ui selection dropdown">
+            <div class="default text">Personality</div>
+            <i class="dropdown icon"></i>
+            <input id="new-personality" name="filter[content]" type="hidden">
+            <div class="menu">
+              <% Personality.options.each do |opt| %>
+              <div class="item" data-value=<%="#{opt}"%>><%= opt %></div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <%= f.submit "Add Preference", id: 'personality-submit-filters', class: "ui button small" %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="eight wide column">
+      <div class="ui form segment">
+        <%= form_for([@user, @filter]) do |f| %>
+        <div class="field">
+          <label>Size</label>
+          <input id="new-filter-type" name="filter[type]" type="hidden" value="Size">
+          <div class="field">
+            <div class="ui selection dropdown">
+              <div class="default text">Size</div>
+              <i class="dropdown icon"></i>
+              <input id="new-gender" name="filter[content]" type="hidden">
+              <div class="menu">
+                <% Size.options.each do |opt| %>
+                <div class="item" data-value=<%="opt"%>><%= opt %></div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <%= f.submit "Add Preference", id: 'size-submit-filters', class: "ui button small" %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="eight wide column">
+      <div class="ui form segment">
+        <%= form_for([@user, @filter]) do |f| %>
+        <div class="field">
+          <label>Gender</label>
+          <input id="new-filter-type" name="filter[type]" type="hidden" value="Gender">
+          <div class="field">
+            <div class="ui selection dropdown">
+              <div class="default text">Gender</div>
+              <i class="dropdown icon"></i>
+              <input id="new-gender" name="filter[content]" type="hidden">
+              <div class="menu">
+                <div class="item" data-value="Female">Female</div>
+                <div class="item" data-value="Male">Male</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <%= f.submit "Add Preference", id: 'gender-submit-filters', class: "ui button small" %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
