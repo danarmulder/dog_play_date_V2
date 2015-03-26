@@ -1,12 +1,70 @@
-<% @messages.each do |message| %>
-  <% if message.body %>
-    <%= message.body %>
-  <% end %>
-<% end %>
+<div class="ui grid">
+  <div class="row">
+    <div class="five wide column"></div>
+    <div class="six wide column">
+      <div class="ui segment">
+        <div class="ui comments">
+          <% if @conversation.sender_id == current_user.id %>
+            <% recipient = User.find(@conversation.recipient_id) %>
+          <% else %>
+            <% recipient = User.find(@conversation.sender_id) %>
+          <% end %>
+          <h3 class="ui dividing header" id="<%= @conversation.id %>"><%= image_tag recipient.avatar_url, class: "ui avatar image" %>Conversation with <%= recipient.user_name %></h3>
+          <div id="container" class="">
+            <% if @over_ten %>
+            <%= link_to 'Show Previous', '?m=all', class: "avatar" %>
+            <% end %>
+            <% @messages.each do |message| %>
+              <% if message.body %>
+                <% user = User.find(message.user_id) %>
+                <div class="comment">
+                  <a class="avatar">
+                    <%= image_tag user.avatar, class: "avatar" %>
+                  </a>
+                  <div class="content">
+                    <a class="author"><%= user.user_name %></a>
+                    <div class="metadata">
+                      <span class="date"> <%= message.message_time %></span>
+                    </div>
+                    <div class="text_area">
+                      <%= message.body %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+          <form class="ui reply form">
+            <div class="field">
+              <textarea></textarea>
+            </div>
+            <div class="comment" id="user_name" data-id="<%=User.find(current_user.id).user_name %>">
+              <a class="avatar" >
+                <%= image_tag current_user.avatar_url, class: "ui avatar image", id: "current_user" %>
+              </a>
+            </div>
+            <div class="ui blue labeled submit icon button" id = "reply" data-id="<%= current_user.id %>">
+              <i class="icon edit"></i> Add Reply
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
-<%= form_for [@conversation, @message] do |f| %>
-  <%= f.label :body %>
-  <%= f.text_area :body %>
-  <%= f.submit "Send", id:"send" %>
-<% end %>
+<script id="add-newest-comment" type="text/x-handlebars-template" charset="utf-8">
+<div class="comment">
+  <a class="avatar">
+    <img src={{userImage}} >
+  </a>
+  <div class="content">
+    <a class="author">{{author}}</a>
+    <div class="metadata">
+      <span class="date">Just Now</span>
+    </div>
+    <div class="text">{{convoText}}</div>
+  </div>
+</div>
+</script>
