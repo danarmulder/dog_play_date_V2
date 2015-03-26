@@ -1,21 +1,113 @@
-<%= form_for @dog do |f| %>
-  <%= f.label :name %>
-  <%= f.text_field :name %>
-  <%= f.file_field :avatar %>
-  <%= f.label :gender %>
-  <%= f.text_field :gender %>
-  <%= f.label :breed %>
-  <%= f.text_field :breed %>
-  <%= f.label :age %>
-  <%= f.text_field :age %>
-  <%= f.label :bio %>
-  <%= f.text_field :bio %>
-  <%= f.label :personality %>
-  <%= f.text_field :personality %>
-  <%= f.label :play %>
-  <%= f.text_field :play %>
-  <%= f.label :size %>
-  <%= f.text_field :size %>
+<h1 class="page-header"></h1>
 
-  <%= f.submit 'Add Dog', id: "add-dog-action" %>
-<% end %>
+<div class="ui form segment">
+  <%= form_for @dog do |f| %>
+  <div class="three fields">
+    <div class="field">
+      <%= f.label :name %>
+      <div class="field">
+        <%= f.text_field :name %>
+      </div>
+    </div>
+    <div class="field">
+      <label>Gender</label>
+      <div class="field">
+        <div class="ui selection dropdown">
+          <div class="default text">Gender</div>
+          <i class="dropdown icon"></i>
+          <input id="new-gender" name="dog[gender]" type="hidden">
+          <div class="menu">
+            <div class="item" data-value="Female">Female</div>
+            <div class="item" data-value="Male">Male</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <%= f.label :age %>
+      <div class="field">
+        <%= f.text_field :age %>
+      </div>
+    </div>
+  </div>
+
+  <div class="four fields">
+    <div class="field">
+      <%= f.label :breed %>
+      <div class="field">
+        <%= f.text_field :breed %>
+      </div>
+    </div>
+    <div class="field">
+      <label>Personality</label>
+      <div class="field">
+        <div class="ui selection dropdown">
+          <div class="default text">Personality</div>
+          <i class="dropdown icon"></i>
+          <input id="new-personality" name="dog[personality]" type="hidden">
+          <div class="menu">
+            <div class="item" data-value="Confident">Confident</div>
+            <div class="item" data-value="Independent">Independent</div>
+            <div class="item" data-value="Laidback">Laid Back</div>
+            <div class="item" data-value="Shytimid">Shy/Timid</div>
+            <div class="item" data-value="Adaptable">Adaptable</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label>Favorite Game</label>
+      <div class="field">
+        <div class="ui selection dropdown">
+          <div class="default text">Game</div>
+          <i class="dropdown icon"></i>
+          <input id="new-play" name="dog[play]" type="hidden">
+          <div class="menu">
+            <div class="item" data-value="Chase">Chase</div>
+            <div class="item" data-value="Tug-o-war">Tug-O-War</div>
+            <div class="item" data-value="Wrestling">Wrestling Back</div>
+            <div class="item" data-value="Fetch">Fetch</div>
+            <div class="item" data-value="Tag">Tag</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label>Size</label>
+      <div class="field">
+        <div class="ui selection dropdown">
+          <div class="default text">Size</div>
+          <i class="dropdown icon"></i>
+          <input id="new-play" name="dog[size]" type="hidden">
+          <div class="menu">
+            <div class="item" data-value="Petite">Petite</div>
+            <div class="item" data-value="Small">Small</div>
+            <div class="item" data-value="Medium">Medium</div>
+            <div class="item" data-value="Large">Large</div>
+            <div class="item" data-value="Extralarge">Extra Large</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="two fields">
+    <div class="field">
+      <%= f.label "Tell us a little more about your pup" %>
+      <div class="field">
+        <%= f.text_area :bio %>
+      </div>
+    </div>
+    <div class="field">
+      <%= f.label "Upload a picture of your pup!" %>
+      <div class="field">
+        <%= f.file_field :avatar %>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <%= f.submit 'Add Dog', id: "add-dog-action", class: "ui button" %>
+  </div>
+
+  <% end %>
+</div>

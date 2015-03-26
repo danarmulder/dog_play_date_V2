@@ -1,11 +1,10 @@
 class FiltersController < ApplicationController
   def index
     @filters = current_user.filters
-    @dogs = Dog.all
+    @dogs = Dog.where.not(user_id: current_user.id)
     @filters.each do |filter|
       @dogs = filter.filter(@dogs)
     end
-
     @filter = @filters.new
   end
 
@@ -21,6 +20,21 @@ class FiltersController < ApplicationController
 
   def edit
     @filter = current_user.filters.find(params[:id])
+  end
+
+  def update
+    @filter = current_user.filters.find(params[:id])
+    if @filter.update(filter_params)
+      redirect_to preferences_path
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @filter = current_user.filters.find(params[:id])
+    @filter.destroy
+    redirect_to profile_path
   end
 
   private

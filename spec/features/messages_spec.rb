@@ -206,6 +206,5 @@ feature "User can send and recieve messages with other users" do
     click_on "signing-user-in-action"
 
     expect(page).to have_content("1")
-
   end
 end

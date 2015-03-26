@@ -1,0 +1,5 @@
+<%= form_for @filter, as: :filter, url: { controller: 'filters', action: 'update', id: @filter.id } do |f| %>
+  <%= f.label :content %>
+  <%= f.text_field :content, id: "content-field" %>
+  <%= f.submit "Update #{@filter.type} Preferences", id: "update-action" %>
+<% end %>

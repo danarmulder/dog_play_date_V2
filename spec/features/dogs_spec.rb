@@ -14,15 +14,13 @@ feature "CRUD dogs" do
     fill_in "Name", with: "Iron Dog"
     fill_in "Breed", with: "Doberman"
     fill_in "Age", with: "2"
-    fill_in "Size", with: "Large"
-    fill_in "Gender", with: "Male"
     click_on "add-dog-action"
+    click_on "Robert Downey Jr."
 
     expect(page).to have_content("Iron Dog")
-    expect(page).to have_content("Edit Dog")
   end
 
-  scenario "User can dog from their profile page" do
+  scenario "User can add dog from their profile page" do
     user = User.create!(
       first_name: "Barbara",
       last_name: "Streisand",
@@ -38,17 +36,15 @@ feature "CRUD dogs" do
     fill_in "Password", with: "1234"
     click_on "signing-user-in-action"
     click_on "Barbara Streisand"
-    click_on "Add Dog"
+    click_on "add-dog-action"
 
     fill_in "Name", with: "Diva"
     fill_in "Breed", with: "West Highland Terrier"
     fill_in "Age", with: "4"
-    fill_in "Size", with: "Large"
-    fill_in "Gender", with: "Female"
     click_on "add-dog-action"
+    click_on "Barbara Streisand"
 
     expect(page).to have_content("Diva")
-    expect(page).to have_content("Edit Dog")
   end
 
   scenario "User can edit their dog from their profile page" do
@@ -79,7 +75,7 @@ feature "CRUD dogs" do
     click_on "update-dog"
 
     expect(page).to have_content("Diva")
-    expect(page).to have_content("Edit Dog")
+    expect(page).to have_content("Edit")
   end
 
   scenario "User can delete a dog from their account" do

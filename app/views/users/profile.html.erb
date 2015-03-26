@@ -1,25 +1,92 @@
-<%= current_user.full_name %>
+<div class="ui segment">
+  <a class="ui ribbon label"><%= current_user.full_name %></a>
 
-<%= image_tag current_user.avatar_url, :class => "user_image"%>
+  <div class="ui small circular image">
+    <img id="user_image" src=<%= current_user.avatar %>>
+  </div>
 
-<% current_user.dogs.each do |dog| %>
-  <%= dog.name %>
-  <%= image_tag dog.avatar_url, :class => "dog_image"%>
-  <%= link_to "Edit Dog", edit_dog_path(dog), id:"edit-dog-#{dog.id}-action" %>
-  <%= link_to "Remove Dog", dog_path(dog), method: :delete, data: {confirm: "Are you sure?"}, id:"delete-dog-#{dog.id}-action" %>
-<% end %>
+  <div class="ui segment">
+    <div class="content" data-user-zipcode="<%= current_user.zipcode %>">
+      <p><%= current_user.email %></p>
+      <p><%= current_user.zipcode %></p>
+      <p><%= current_user.age %></p>
+      <p><%= current_user.gender %></p>
+      <p><%= current_user.bio %></p>
+    </div>
+  </div>
 
-<%= link_to "Add Dog", new_dog_path %>
+  <div class="ui button">
+    <%= link_to "Edit", edit_user_path(current_user) %>
+  </div>
+</div>
 
-<%= link_to "Preferences", preferences_path, id:"preferences-link" %>
+<div class="ui eight wide segment">
+  <a class="ui ribbon label"><%= current_user.full_name %>'s Potential Matches</a>
+  <div class="ui segment">
+    <%= @dogs.map(&:name) %>
+  </div>
 
+  <a class="ui ribbon label"><%= current_user.full_name %>'s Dog Preferences</a>
+  <div class="ui segment">
+    <% @filters.each do |filter| %>
+      <%= filter.type %>: <%= filter.content %>
+    <% end %>
+  </div>
 
-<% @conversations.each do |conversation| %>
-  <% if conversation.sender_id == current_user.id %>
-    <% recipient = User.find(conversation.recipient_id) %>
-  <% else %>
-    <% recipient = User.find(conversation.sender_id) %>
+  <div class="ui button">
+    <%= link_to "Change Preferences", preferences_path, id:"preferences-link" %>
+  </div>
+</div>
+
+<div class="ui segment">
+  <a class="ui ribbon label"><%= current_user.full_name %>'s Conversations</a>
+  <% @conversations.each do |conversation| %>
+    <% if conversation.sender_id == current_user.id %>
+      <% recipient = User.find(conversation.recipient_id) %>
+    <% else %>
+      <% recipient = User.find(conversation.sender_id) %>
+    <% end %>
+    <%= conversation.messages.last.body %>
+    <%= link_to recipient.user_name, conversation_messages_path(conversation), id:"see-message-from-#{recipient.id}-action"%>
   <% end %>
-  <%= conversation.messages.last.body %>
-  <%= link_to recipient.user_name, conversation_messages_path(conversation), id:"see-message-from-#{recipient.id}-action"%>
-<% end %>
+</div>
+
+<div class="ui segment">
+  <a class="ui ribbon label"><%= current_user.full_name %>'s Dogs</a>
+  <% current_user.dogs.in_groups(3) do |column_dogs| %>
+  <div class="column">
+    <% column_dogs.each do |dog| %>
+    <% break if dog.nil? %>
+    <div class="ui card field">
+      <div class="content">
+        <div class="header" data-dog-id ="<%= dog.id %>">
+          <div class="ui avatar image">
+            <img id="dog_image" src=<%= dog.avatar %>>
+          </div>
+          <%= dog.name %>
+        </div>
+        <div class="description">
+          <%= dog.bio %>
+        </div>
+      </div>
+
+      <div class="ui bottom attached segment">
+        <div class="ui inverted teal button">
+          <%= link_to "Edit", edit_dog_path(dog), id:"edit-dog-#{dog.id}-action" %>
+        </div>
+        <div class="ui button">
+          <%= link_to 'Delete Dog', dog_path(dog), method: :delete, data: {confirm: "Are you sure?"}, id:"delete-dog-#{dog.id}-action"  %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+    <div class ="one wide field"></div>
+  </div>
+  <% end %>
+</div>
+
+<div class="column padding">
+  <div class="ui teal inverted button">
+    <%= link_to "Add Dog", new_dog_path, id:"add-dog-action" %>
+  </div>
+</div>

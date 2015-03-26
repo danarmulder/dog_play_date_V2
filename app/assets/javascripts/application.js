@@ -16,3 +16,5 @@
 //= require semantic-ui
 //= require handlebars-v2.0.0.js
 //= require_tree .
+// Loads all Semantic javascripts
+//= require semantic-ui
