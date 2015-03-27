@@ -207,6 +207,7 @@ feature "User can send and recieve messages with other users" do
     fill_in "Email", with: "barbarastreisand@aol.com"
     fill_in "Password", with: "1234"
     click_on "signing-user-in-action"
+    click_on "Barbara-profile-path"
 
     expect(page).to have_content("1")
   end

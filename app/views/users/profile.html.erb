@@ -42,7 +42,13 @@
   <a class="ui ribbon label">Conversations</a>
   <h2 class="ui header">
     <div class="content">
-      <div class="sub header medium">Paws-itive messages from your furry friends!</div>
+      <div class="sub header medium">Paws-itive messages from your furry friends!
+        <% if current_user.unread_messages_count > 0 %>
+          <div class="ui green label"> <%= current_user.unread_messages_count %></div>
+        <% else %>
+          <div class="ui label"> <%= current_user.unread_messages_count %></div>
+        <% end %>
+      </div>
     </div>
   </h2>
   <div class="ui segment">
@@ -56,7 +62,7 @@
           <% end %>
           <div class="item">
             <%= link_to 'See Conversation', conversation_messages_path(conversation), class: "right floated compact ui button", id: "see-conversation-#{conversation.id}" %>
-            <%= image_tag recipient.avatar, class: "ui avatar image" %>
+            <%= image_tag recipient.avatar, class: "ui avatar image " %>
             <div class="content">
               <div class="header"><%= link_to recipient.user_name, conversation_messages_path(conversation), class: "header" %></div>
               <% if conversation.messages.last %>
