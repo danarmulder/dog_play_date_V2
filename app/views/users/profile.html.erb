@@ -40,32 +40,26 @@
               <%= dog.personality %>
             </div>
           </div>
-
           <div class="ui bottom attached segment">
-            <div class="ui inverted teal button">
-              <%= link_to "Edit", edit_dog_path(dog), id:"edit-dog-#{dog.id}-action" %>
-            </div>
-            <div class="ui button">
-              <%= link_to 'Delete Dog', dog_path(dog), method: :delete, data: {confirm: "Are you sure?"}, id:"delete-dog-#{dog.id}-action"  %>
-            </div>
-            <% end %>
+            <%= link_to "Edit", edit_dog_path(dog), id:"edit-dog-#{dog.id}-action", class: "ui teal button" %>
+            <%= link_to 'Delete Dog', dog_path(dog), method: :delete, data: {confirm: "Are you sure?"}, id:"delete-dog-#{dog.id}-action", class: "ui button" %>
           </div>
+          <% end %>
           <div class ="one wide field"></div>
         </div>
         <% end %>
-        <div class="ui button teal">
-          <%= link_to "Add Dog", new_dog_path, id: "add-dog-action"  %>
-        </div>
+        <%= link_to "Add Dog", new_dog_path, id: "add-dog-action", class: "ui button teal"  %>
+      </div>
+    </div>
   </div>
   <div class="eleven wide column">
     <div class="ui segment">
       <div class="ui segment">
-        <a class="ui ribbon label">Potential Matches</a>
+        <a class="ui ribbon label">Suggested Matches</a>
         <div class="ui segment">
           <%= @dogs.map(&:name) %>
         </div>
-
-        <a class="ui ribbon label">Dog Preferences</a>
+        <h4>Dog Preferences</h4>
         <div class="ui segment">
           <table class="ui table">
             <thead>
@@ -103,8 +97,8 @@
         <h2 class="ui header">
           <div class="content">
             <div class="sub header medium">Paws-itive messages from your furry friends!
-              <% if current_user.unread_messages_count > 0 %>
-              <div class="ui green label"> <%= current_user.unread_messages_count %></div>
+              <% if current_user.unread_messages_count(current_user.id) > 0 %>
+                <div class="ui green label"> <%= current_user.unread_messages_count(current_user.id) %></div>
               <% end %>
             </div>
           </div>
