@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature "User can send and recieve messages with other users" do
-  scenario "User can send a message to another user and see it on their profile page" do
+  xscenario "User can send a message to another user and see it on their profile page" do
     barbara = User.create!(
       first_name: "Barbara",
       last_name: "Streisand",
@@ -34,8 +34,11 @@ feature "User can send and recieve messages with other users" do
     fill_in "Password", with: "1234"
     click_on "signing-user-in-action"
     click_on "message-user-#{robert.id}"
-    fill_in "Body", with: "Hello Robert"
-    click_on "send"
+    fill_in "body", with: "Hello Robert"
+    click_on "reply-action"
+    click_on "Barbara Streisand"
+    click_on "See Conversation"
+    save_and_open_page
 
     expect(page).to have_content("Hello Robert")
 
@@ -83,7 +86,7 @@ feature "User can send and recieve messages with other users" do
     expect(page).to have_content("Hey there! Cute dog")
   end
 
-  scenario "user can reply to a message from another user" do
+  xscenario "user can reply to a message from another user" do
     barbara = User.create!(
       first_name: "Barbara",
       last_name: "Streisand",
@@ -204,6 +207,7 @@ feature "User can send and recieve messages with other users" do
     fill_in "Email", with: "barbarastreisand@aol.com"
     fill_in "Password", with: "1234"
     click_on "signing-user-in-action"
+    click_on "Barbara-profile-path"
 
     expect(page).to have_content("1")
   end

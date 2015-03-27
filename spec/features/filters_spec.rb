@@ -43,7 +43,7 @@ feature "filtering dog friend suggestions" do
     fill_in "Password", with: "1234"
     fill_in "Password confirmation", with: "1234"
     click_on "sign-up"
-    click_on "Robert Downey Jr."
+    click_on "Robert-profile-path"
     click_on "Add Dog"
 
     fill_in "Name", with: "Diva"
@@ -53,6 +53,7 @@ feature "filtering dog friend suggestions" do
 
 
     expect(page).to have_content("Fido")
+    expect(page).to have_content("94117")
     expect(page).not_to have_content("Lucky")
   end
 
@@ -198,14 +199,14 @@ feature "filtering dog friend suggestions" do
       password: "12345678"
     )
 
-    fido = Dog.create!(
+    lola = Dog.create!(
       name: "Lola",
       breed: "Lab",
       age: "5",
       size: "Large",
       play: "Toy-Motivated",
       gender: "Female",
-      personality: "Dominant",
+      personality: "Laid-Back",
       zipcode: 94114,
       user_id: andrew.id
     )
@@ -217,7 +218,7 @@ feature "filtering dog friend suggestions" do
       size: "Medium",
       play: "Food-Motivated",
       gender: "Female",
-      personality: "Submissive",
+      personality: "Confident",
       zipcode: 94117,
       user_id: andrew.id
     )
@@ -227,7 +228,7 @@ feature "filtering dog friend suggestions" do
     fill_in "Email", with: "barbarastreisand@aol.com"
     fill_in "Password", with: "1234"
     click_on "signing-user-in-action"
-    click_on "Barbara Streisand"
+    click_on "#{user.first_name}-profile-path"
     click_on "preferences-link"
     click_on "delete-filter-#{filter.id}-action"
 
@@ -282,7 +283,7 @@ feature "filtering dog friend suggestions" do
       size: "Medium",
       play: "Food-Motivated",
       gender: "Female",
-      personality: "Laidback",
+      personality: "Laid-Back",
       zipcode: 94117,
       user_id: user.id
     )
@@ -298,7 +299,7 @@ feature "filtering dog friend suggestions" do
     fill_in "Email", with: "barbarastreisand@aol.com"
     fill_in "Password", with: "1234"
     click_on "signing-user-in-action"
-    click_on "Barbara Streisand"
+    click_on "#{user.first_name}-profile-path"
     click_on "preferences-link"
 
     expect(page).to have_content("Lucky")
@@ -342,7 +343,7 @@ feature "filtering dog friend suggestions" do
       size: "Medium",
       play: "Food-Motivated",
       gender: "Female",
-      personality: "Laidback",
+      personality: "Laid-Back",
       zipcode: 94117,
       user_id: andrew.id
     )
@@ -354,8 +355,14 @@ feature "filtering dog friend suggestions" do
       size: "Medium",
       play: "Food-Motivated",
       gender: "Female",
-      personality: "Laidback",
+      personality: "Laid-Back",
       zipcode: 94117,
+      user_id: user.id
+    )
+
+    filter = Filter.create!(
+      type: "Personality",
+      content: "Laid-Back",
       user_id: user.id
     )
 
@@ -364,14 +371,12 @@ feature "filtering dog friend suggestions" do
     fill_in "Email", with: "barbarastreisand@aol.com"
     fill_in "Password", with: "1234"
     click_on "signing-user-in-action"
-    click_on "Barbara Streisand"
+    click_on "#{user.first_name}-profile-path"
     click_on "preferences-link"
-    select 'Laidback', from: "filter_content"
-    click_on "personality-submit-filters"
 
     expect(page).to have_content("Lucky")
     expect(page).not_to have_content("Lola")
     expect(page).not_to have_content("Puddle")
-    expect(page).to have_content("Personality Preference: Laidback")
+    expect(page).to have_content("Personality Preference: Laid-Back")
   end
 end

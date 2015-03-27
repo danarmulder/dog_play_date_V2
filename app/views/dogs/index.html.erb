@@ -21,10 +21,9 @@
           <i class="dropdown icon"></i>
           <input id="s" name="s" type="hidden" />
           <div class="menu">
-            <div class="item" data-value="Small">Small</div>
-            <div class="item" data-value="Medium">Medium</div>
-            <div class="item" data-value="Large">Large</div>
-            <div class="item" data-value="Extra-large">Extra Large</div>
+            <% Size.options.each do |opt| %>
+              <div class="item" data-value= <%= "#{opt}" %> ><%= opt %></div>
+            <% end %>
           </div>
         </div>
       </div>
@@ -35,9 +34,11 @@
           <i class="dropdown icon"></i>
           <input id="y" name="y" type="hidden" />
           <div class="menu">
-            <div class="item" data-value="Toy-Oriented">Toy-Oriented</div>
-            <div class="item" data-value="Food-Oriented">Food-Oriented</div>
-            <div class="item" data-value="Tag/Wrestling-Oriented">Tag/Wrestling-Oriented</div>
+            <div class="item" data-value="Chase">Chase</div>
+            <div class="item" data-value="Tug-o-war">Tug-O-War</div>
+            <div class="item" data-value="Wrestling">Wrestling Back</div>
+            <div class="item" data-value="Fetch">Fetch</div>
+            <div class="item" data-value="Tag">Tag</div>
           </div>
         </div>
       </div>
@@ -48,8 +49,9 @@
           <i class="dropdown icon"></i>
           <input id="p" name="p" type="hidden" />
           <div class="menu">
-            <div class="item" data-value="Submissive">Submissive</div>
-            <div class="item" data-value="Dominant">Dominant</div>
+            <% Personality.options.each do |opt| %>
+              <div class="item" data- value=<%= "#{opt}" %>><%= opt %></div>
+            <% end %>
           </div>
         </div>
       </div>

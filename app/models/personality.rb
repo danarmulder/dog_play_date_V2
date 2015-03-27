@@ -4,6 +4,6 @@ class Personality < Filter
   end
 
   def self.options
-    %w(Confident Independent LaidBack ShyTimid Adaptable)
+    %w(Confident Independent Laid-Back Shy-Timid Adaptable)
   end
 end

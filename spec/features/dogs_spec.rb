@@ -69,7 +69,7 @@ feature "CRUD dogs" do
     fill_in "Email", with: "barbarastreisand@aol.com"
     fill_in "Password", with: "1234"
     click_on "signing-user-in-action"
-    click_on "Barbara Streisand"
+    click_on "#{user.first_name}-profile-path"
     click_on "edit-dog-#{dog.id}-action"
     fill_in "Name", with: "Diva"
     click_on "update-dog"
@@ -100,7 +100,7 @@ feature "CRUD dogs" do
     fill_in "Email", with: "barbarastreisand@aol.com"
     fill_in "Password", with: "1234"
     click_on "signing-user-in-action"
-    click_on "Barbara Streisand"
+    click_on "#{user.first_name}-profile-path"
     click_on "delete-dog-#{dog.id}-action"
 
     expect(page).to_not have_content("Snoopy")
@@ -128,7 +128,7 @@ feature "CRUD dogs" do
     fill_in "Email", with: "barbarastreisand@aol.com"
     fill_in "Password", with: "1234"
     click_on "signing-user-in-action"
-    click_on "Barbara Streisand"
+    click_on "#{user.first_name}-profile-path"
 
     expect(page).to have_css("img#dog_image")
   end
