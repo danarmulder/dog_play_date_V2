@@ -7,11 +7,11 @@
 
   <div class="ui segment">
     <div class="content" data-user-zipcode="<%= current_user.zipcode %>">
-      <p><%= current_user.email %></p>
-      <p><%= current_user.zipcode %></p>
-      <p><%= current_user.age %></p>
-      <p><%= current_user.gender %></p>
-      <p><%= current_user.bio %></p>
+      <p><strong>Email: </strong><%= current_user.email %></p>
+      <p><strong>Zipcode: </strong><%= current_user.zipcode %></p>
+      <p><strong>Age: </strong><%= current_user.age %></p>
+      <p><strong>Gender: </strong<<%= current_user.gender %></p>
+      <p><strong>Bio: </strong><%= current_user.bio %></p>
     </div>
   </div>
 
@@ -28,9 +28,31 @@
 
   <a class="ui ribbon label">Dog Preferences</a>
   <div class="ui segment">
-    <% @filters.each do |filter| %>
-      <%= filter.type %>: <%= filter.content %>
-    <% end %>
+    <table class="ui table">
+      <thead>
+        <tr>
+          <th>Preference</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @filters.each do |filter| %>
+          <tr>
+          <% if filter.id != nil %>
+            <% if filter.type == "Zipcode" %>
+              <td>Based on <%= filter.type %>: <%= filter.content %></td>
+              <td><%= link_to "Edit Location", edit_filter_path(filter), id: "edit-filter-#{filter.id}" %></td>
+            <% else %>
+              <td><%= filter.type %> Preference: <%= filter.content %></td>
+              <td><%= link_to "Edit Preference", edit_filter_path(filter), id: "edit-filter-#{filter.id}" %></td>
+              <td><%= link_to "Delete Preference", filter_path(filter.id), method: :delete, data: {confirm: "Are you sure you want to delete this preference?"}, id: "delete-filter-#{filter.id}-action" %></td>
+            <% end %>
+          <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 
   <div class="ui button">
@@ -45,14 +67,12 @@
       <div class="sub header medium">Paws-itive messages from your furry friends!
         <% if current_user.unread_messages_count > 0 %>
           <div class="ui green label"> <%= current_user.unread_messages_count %></div>
-        <% else %>
-          <div class="ui label"> <%= current_user.unread_messages_count %></div>
         <% end %>
       </div>
     </div>
   </h2>
   <div class="ui segment">
-    <div class="ui huge divided animated list">
+    <div class="ui divided animated list">
     <% @conversations.each do |conversation| %>
       <% if conversation.sender_id == current_user.id || conversation.recipient_id == current_user.id %>
           <% if conversation.sender_id == current_user.id %>
