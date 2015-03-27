@@ -21,12 +21,12 @@
 </div>
 
 <div class="ui eight wide segment">
-  <a class="ui ribbon label"><%= current_user.full_name %>'s Potential Matches</a>
+  <a class="ui ribbon label">Potential Matches</a>
   <div class="ui segment">
     <%= @dogs.map(&:name) %>
   </div>
 
-  <a class="ui ribbon label"><%= current_user.full_name %>'s Dog Preferences</a>
+  <a class="ui ribbon label">Dog Preferences</a>
   <div class="ui segment">
     <% @filters.each do |filter| %>
       <%= filter.type %>: <%= filter.content %>
@@ -39,7 +39,7 @@
 </div>
 
 <div class="ui segment">
-  <a class="ui ribbon label"><%= current_user.full_name %>'s Conversations</a>
+  <a class="ui ribbon label">Conversations</a>
   <h2 class="ui header">
     <div class="content">
       <div class="sub header medium">Paws-itive messages from your furry friends!</div>
@@ -74,7 +74,7 @@
   </div>
 </div>
 <div class="ui segment">
-  <a class="ui ribbon label"><%= current_user.full_name %>'s Dogs</a>
+  <a class="ui ribbon label">Your Dogs</a>
   <% current_user.dogs.in_groups(3) do |column_dogs| %>
   <div class="column">
     <% column_dogs.each do |dog| %>
@@ -89,6 +89,7 @@
         </div>
         <div class="description">
           <%= dog.bio %>
+          <%= dog.personality %>
         </div>
       </div>
 
