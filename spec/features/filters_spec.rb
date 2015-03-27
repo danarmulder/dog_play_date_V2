@@ -231,8 +231,9 @@ feature "filtering dog friend suggestions" do
     click_on "#{user.first_name}-profile-path"
     click_on "preferences-link"
     click_on "delete-filter-#{filter.id}-action"
+    save_and_open_page
 
-    expect(page).not_to have_content("Breed: Lab")
+    expect(page).not_to have_content("Preferences Breed: Lab")
   end
   it "A user can filter dogs based on Personality" do
     user = User.create!(
