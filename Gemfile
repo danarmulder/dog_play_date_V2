@@ -30,6 +30,9 @@ group :development, :test do
   gem 'launchy'
   gem 'rspec-rails'
   gem 'spring'
+  gem 'pry'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 # Use ActiveModel has_secure_password
@@ -37,11 +40,7 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'carrierwave'
 
-gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass', branch: 'v1.0beta'
 
-gem 'better_errors'
-
-gem 'binding_of_caller'
 
 # Use unicorn as the app server
 # gem 'unicorn'

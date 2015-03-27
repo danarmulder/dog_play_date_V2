@@ -1,3 +1,4 @@
+require 'pry'
 class DogsController < ApplicationController
   before_action :authenticate_user, only: [:new, :create, :destroy, :edit]
   def index
@@ -10,6 +11,8 @@ class DogsController < ApplicationController
 
   def index
     @dogs = Dog.all
+    zip_filter = current_user.filters.where(:type=> "Zipcode")[0]
+    @dogs = zip_filter.filter(@dogs)
     if !params[:g].blank?
       puts "filtering by gender"
       @dogs = @dogs.where(:gender=> params[:g])
