@@ -43,7 +43,7 @@ feature "filtering dog friend suggestions" do
     fill_in "Password", with: "1234"
     fill_in "Password confirmation", with: "1234"
     click_on "sign-up"
-    click_on "Robert Downey Jr."
+    click_on "Robert-profile-path"
     click_on "Add Dog"
 
     fill_in "Name", with: "Diva"
@@ -53,6 +53,7 @@ feature "filtering dog friend suggestions" do
 
 
     expect(page).to have_content("Fido")
+    expect(page).to have_content("94117")
     expect(page).not_to have_content("Lucky")
   end
 
@@ -227,7 +228,7 @@ feature "filtering dog friend suggestions" do
     fill_in "Email", with: "barbarastreisand@aol.com"
     fill_in "Password", with: "1234"
     click_on "signing-user-in-action"
-    click_on "Barbara Streisand"
+    click_on "#{user.first_name}-profile-path"
     click_on "preferences-link"
     click_on "delete-filter-#{filter.id}-action"
 
@@ -298,7 +299,7 @@ feature "filtering dog friend suggestions" do
     fill_in "Email", with: "barbarastreisand@aol.com"
     fill_in "Password", with: "1234"
     click_on "signing-user-in-action"
-    click_on "Barbara Streisand"
+    click_on "#{user.first_name}-profile-path"
     click_on "preferences-link"
 
     expect(page).to have_content("Lucky")
@@ -370,7 +371,7 @@ feature "filtering dog friend suggestions" do
     fill_in "Email", with: "barbarastreisand@aol.com"
     fill_in "Password", with: "1234"
     click_on "signing-user-in-action"
-    click_on "Barbara Streisand"
+    click_on "#{user.first_name}-profile-path"
     click_on "preferences-link"
 
     expect(page).to have_content("Lucky")

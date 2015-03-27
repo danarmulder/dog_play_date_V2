@@ -14,7 +14,7 @@
   <div class="right menu">
     <% if current_user %>
       <% profile_page = is_active?(profile_path) %>
-        <%= link_to current_user.full_name, profile_path, class: "ui item #{profile_page}" %>
+        <%= link_to current_user.full_name, profile_path, class: "ui item #{profile_page}", id:"#{current_user.first_name}-profile-path" %>
       <% conversation_page = is_active?(conversations_path) %>
         <%= link_to "Mailbox", conversations_path, class: "item #{conversation_page}" %>
         <% if current_user.unread_messages_count > 0 %>
