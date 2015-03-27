@@ -16,7 +16,7 @@
   </div>
 
   <div class="ui button">
-    <%= link_to "Edit", edit_user_path(current_user) %>
+    <%= link_to "Edit", edit_user_path(current_user), id: "edit-user-action" %>
   </div>
 </div>
 
@@ -40,17 +40,39 @@
 
 <div class="ui segment">
   <a class="ui ribbon label"><%= current_user.full_name %>'s Conversations</a>
-  <% @conversations.each do |conversation| %>
-    <% if conversation.sender_id == current_user.id %>
-      <% recipient = User.find(conversation.recipient_id) %>
-    <% else %>
-      <% recipient = User.find(conversation.sender_id) %>
+  <h2 class="ui header">
+    <div class="content">
+      <div class="sub header medium">Paws-itive messages from your furry friends!</div>
+    </div>
+  </h2>
+  <div class="ui segment">
+    <div class="ui huge divided animated list">
+    <% @conversations.each do |conversation| %>
+      <% if conversation.sender_id == current_user.id || conversation.recipient_id == current_user.id %>
+          <% if conversation.sender_id == current_user.id %>
+            <% recipient = User.find(conversation.recipient_id) %>
+          <% else %>
+            <% recipient = User.find(conversation.sender_id) %>
+          <% end %>
+          <div class="item">
+            <%= link_to 'See Conversation', conversation_messages_path(conversation), class: "right floated compact ui button", id: "see-conversation-#{conversation.id}" %>
+            <%= image_tag recipient.avatar, class: "ui avatar image" %>
+            <div class="content">
+              <div class="header"><%= link_to recipient.user_name, conversation_messages_path(conversation), class: "header" %></div>
+              <% if conversation.messages.last %>
+                <% if conversation.messages.last.body.length > 90 %>
+                  <div class="description"> <%= conversation.messages.last.body[0..87] %>... </div>
+                <% else %>
+                  <div class="description"> <%= conversation.messages.last.body %> </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+      <% end %>
     <% end %>
-    <%= conversation.messages.last.body %>
-    <%= link_to recipient.user_name, conversation_messages_path(conversation), id:"see-message-from-#{recipient.id}-action"%>
-  <% end %>
+    </div>
+  </div>
 </div>
-
 <div class="ui segment">
   <a class="ui ribbon label"><%= current_user.full_name %>'s Dogs</a>
   <% current_user.dogs.in_groups(3) do |column_dogs| %>

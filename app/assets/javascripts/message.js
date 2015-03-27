@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  $('#reply').on ('click', function(){
+  $('#reply-action').on ('click', function(){
     var sender_id= $(this).data('id');
     var body = $('textarea').val();
     var conversation_id = $('h3')[0].id;
