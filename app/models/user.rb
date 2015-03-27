@@ -1,7 +1,9 @@
+require 'pry'
 class User < ActiveRecord::Base
   has_secure_password
   has_many :dogs
   has_many :conversations, :foreign_key => :sender_id
+  has_many :conversations, :foreign_key => :recipient_id
   has_many :filters
 
   delegate :breeds, :sizes, :ages, :personalities, :plays, :blocked_users, :genders, :zipcodes, to: :filters
@@ -21,12 +23,16 @@ class User < ActiveRecord::Base
     "#{first_name} #{last_name[0]}."
   end
 
-  def unread_messages_count
+
+  def unread_messages_count(user_id)
     count = 0
     conversations.each do |conversation|
       conversation.messages.each do |message|
-        if message.read == false
-          count += 1
+
+        if user_id != message.user_id
+          if message.read == false
+            count += 1
+          end
         end
       end
     end

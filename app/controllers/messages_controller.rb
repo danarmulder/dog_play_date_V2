@@ -1,10 +1,10 @@
+require 'pry'
 class MessagesController < ApplicationController
   before_action do
     @conversation = Conversation.find(params[:conversation_id])
     :authenticate_user
   end
   def index
-    @message = @conversation.messages.new
     @messages= @conversation.messages
     @messages = @conversation.messages
     if @messages.length > 10
@@ -17,7 +17,8 @@ class MessagesController < ApplicationController
     end
     if @messages.last
       if @messages.last.user_id != current_user.id
-        @messages.last.read = true;
+        @messages.last.read = true
+        @messages.last.save
       end
     end
   end
