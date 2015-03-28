@@ -1,6 +1,38 @@
-<div class="ui grid">
+<div class="ui grid" id="inbox">
   <div class="row">
-    <div class="one wide column"></div>
+    <div class="four wide column">
+      <div class="ui segment">
+        <div class="ui medium divided animated list">
+        <% @current_messages.each do |message| %>
+          <% conversation = Conversation.find(message.conversation_id) %>
+          <% if conversation.recipient_id == current_user.id %>
+            <% recipient = User.find(conversation.sender_id) %>
+          <% else %>
+            <% recipient = User.find(conversation.recipient_id) %>
+          <% end %>
+          <div class="item">
+            <%= image_tag recipient.avatar, class: "ui avatar image" %>
+            <div class="content">
+              <div class="header"><%= link_to recipient.user_name, conversation_messages_path(conversation), class: "header" %></div>
+              <% if message.user_id != current_user.id && message.read == false %>
+                <% if message.body.length > 90 %>
+                  <div class="description"><strong> <%= message.body[0..87] %>... </strong></div>
+                <% else %>
+                  <div class="description"> <strong><%= message.body %></strong> </div>
+                <% end %>
+              <% else %>
+                <% if message.body.length > 90 %>
+                  <div class="description"> <%= message.body[0..87] %>... </div>
+                <% else %>
+                  <div class="description"> <%= message.body %> </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+        </div>
+      </div>
+    </div>
     <div class="six wide column">
       <div class="ui segment">
         <div class="ui comments">
@@ -54,23 +86,22 @@
         <div id="mapbox_map">
         </div>
       </div>
-
     </div>
   </div>
 </div>
 
 
 <script id="add-newest-comment" type="text/x-handlebars-template" charset="utf-8">
-<div class="comment">
-  <a class="avatar">
-    <img src={{userImage}} >
-  </a>
-  <div class="content">
-    <a class="author">{{author}}</a>
-    <div class="metadata">
-      <span class="date">Just Now</span>
+  <div class="comment">
+    <a class="avatar">
+      <img src={{userImage}} >
+    </a>
+    <div class="content">
+      <a class="author">{{author}}</a>
+      <div class="metadata">
+        <span class="date">Just Now</span>
+      </div>
+      <div class="text">{{convoText}}</div>
     </div>
-    <div class="text">{{convoText}}</div>
   </div>
-</div>
 </script>
