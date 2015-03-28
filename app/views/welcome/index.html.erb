@@ -1,14 +1,10 @@
 <div class="ui inverted vertical image-div">
     <div class="ui page grid">
       <div class="column">
-        <h1 class= "ui inverted header">
-          <p>Puppy love</p>
-        </h1>
-        <h3 class="ui inverted huge header">
-          <p>Because every dog </p>
-          <p>needs friends...</p>
-          <%= link_to "Sign Up", signup_path, class:"ui huge teal button" %>
-        </h3>
+        <h2 class="ui inverted header header-text">
+          PuppyLove because every dog needs a friend...
+        </h2>
+          <%= link_to "Sign Up", signup_path, class:"ui huge button deep-navy-background header-button"%>
       </div>
     </div>
   </div>
@@ -16,7 +12,6 @@
 
 
 <div id="dog-table" class="ui three column padded page grid">
-
   <% @dogs.in_groups(3) do |column_dogs| %>
   <div class="column">
     <% column_dogs.each do |dog| %>
@@ -63,4 +58,32 @@
     <% end %>
   </div>
   <% end %>
+</div>
+
+
+<div class="ui inverted content-div">
+    <div class="ui two column grid">
+      <div class="column welcome-panel-left">
+        <div class="ui inverted header vertically aligned">
+          <h2>PuppyLove<i class="paw icon large inverted"></i></h2>
+        </div>
+        <div class="ui content light-gray">
+          <p class="panel-text">A new platform to connect your pets with playmates nearby.
+            Through our extensive research, we've developed an algorithm
+            to help match your pup with an appropriate playmate</p>
+        </div>
+        <%= link_to "Sign Up", signup_path, class:"ui button inverted"%>
+      </div>
+      <div class="column welcome-panel-right">
+        <div class="ui header inverted right aligned">
+          <h4>About Us</h4>
+          <h4>Contact Us</h4>
+          <h4>Careers</h4>
+          <h4>Privacy Policy</h4>
+        </div>
+      </div>
+    </div>
+    <div class="content footer-text">
+      <p class="light-gray">An App created by Dana Mulder and Rory Grant</p>
+    </div>
 </div>

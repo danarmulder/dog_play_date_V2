@@ -16,6 +16,16 @@
 
  @import "semantic-ui";
 
+<<<<<<< HEAD
+=======
+ // Color Palette
+
+ $primary-green: #A6E246;
+ $accent-color: #FFF499;
+ $dark-gray: #5D5E60;
+ $light-gray: #969696;
+ $deep-navy: #252C3D;
+
  .image-div {
    background: url(/assets/img_00791.jpg) no-repeat center center fixed;
    -webkit-background-size: cover;
@@ -24,6 +34,17 @@
    background-size: cover;
    width: 100%;
    height: 600px;
+ }
+
+ .content-div {
+   background: $deep-navy no-repeat center center fixed;
+   -webkit-background-size: cover;
+   -moz-background-size: cover;
+   -o-background-size: cover;
+   background-size: cover;
+   width: 100%;
+   height: 300px;
+   margin-top: 2em !important;
  }
 
  .inactive {
@@ -50,4 +71,41 @@
 
 #inbox{
   margin: 20px;
+}
+.deep-navy-background {
+  background: $deep-navy !important;
+  color: $primary-green !important;
+}
+
+.header-button {
+  margin: 2em 0em 0em 40em !important;
+  position: relative;
+}
+
+.header-text {
+  margin: 2em 0em 0em 30em !important;
+  text-align: right;
+  position: relative;
+}
+
+.welcome-panel-left {
+  padding-left: 4em !important;
+}
+
+.welcome-panel-right {
+  padding-right: 4em !important;
+  float: right;
+}
+
+.panel-text {
+  margin-bottom: 2em !important;
+}
+
+.light-gray {
+  color: $light-gray !important;
+}
+
+.footer-text {
+  text-align: center !important;
+  margin: 5em !important;
 }
