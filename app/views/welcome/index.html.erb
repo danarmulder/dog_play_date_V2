@@ -1,4 +1,20 @@
-WELCOME!
+<div class="ui inverted vertical image-div">
+    <div class="ui page grid">
+      <div class="column">
+        <h1 class= "ui inverted header">
+          <p>Puppy love</p>
+        </h1>
+        <h3 class="ui inverted huge header">
+          <p>Because every dog </p>
+          <p>needs friends...</p>
+          <%= link_to "Sign Up", signup_path, class:"ui huge teal button" %>
+        </h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div id="dog-table" class="ui three column padded page grid">
 
   <% @dogs.in_groups(3) do |column_dogs| %>
