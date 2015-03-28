@@ -1,6 +1,6 @@
 <div class="ui grid">
   <div class="row">
-    <div class="five wide column"></div>
+    <div class="one wide column"></div>
     <div class="six wide column">
       <div class="ui segment">
         <div class="ui comments">
@@ -47,6 +47,14 @@
           </form>
         </div>
       </div>
+    </div>
+    <div class="six wide column">
+      <div class="ui segment" id = "map-container">
+        <h3 class="ui dividing header">Parks between you and <%= recipient.first_name %></h3>
+        <div id="mapbox_map">
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
