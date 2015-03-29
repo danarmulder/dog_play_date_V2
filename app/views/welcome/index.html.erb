@@ -12,7 +12,9 @@
 
 
 <div id="dog-table" class="ui three column padded page grid">
-  <% @dogs.in_groups(3) do |column_dogs| %>
+  <h2 class="ui header page-header center aligned">Dogs</h2>
+  <div class="ui horizontal divider">currently on PuppyLove</div>
+  <% @dogs[0..5].in_groups(3) do |column_dogs| %>
   <div class="column">
     <% column_dogs.each do |dog| %>
     <% break if dog.nil? %>
