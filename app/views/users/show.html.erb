@@ -1,0 +1,73 @@
+<div class="ui grid page-body">
+  <div class="five wide column">
+    <div class="ui segment">
+      <a class="ui ribbon label"><%= @user.full_name %></a>
+
+      <div class="ui small circular image">
+        <img id="user_image" src=<%= @user.avatar %>>
+      </div>
+
+      <div class="ui segment">
+        <div class="content" data-user-zipcode="<%= @user.zipcode %>">
+          <p><strong>Age: </strong><%= @user.age %></p>
+          <p><strong>Gender: </strong><%= @user.gender %></p>
+          <p><strong>Bio: </strong><%= @user.bio %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="eleven wide column">
+    <div class="ui segment">
+      <div class="ui three column padded page grid">
+        <% @dogs.in_groups(3) do |column_dogs| %>
+        <div class="column">
+          <% column_dogs.each do |dog| %>
+            <% break if dog.nil? %>
+            <div class="ui fluid card">
+              <div class="image dimmable">
+                <div class="ui dimmer">
+                  <div class="content">
+                    <div class="center">
+                      <div class="ui inverted button">Add Friend</div>
+                    </div>
+                  </div>
+                </div>
+                <%= image_tag(dog.avatar_url) %>
+              </div>
+              <div class="content" data= "">
+                <div class="header"><%= dog.name %></div>
+                <div class="meta">
+                  Adoring Human: <%= link_to dog.user.user_name, user_path(dog.user), class: "group" %>
+                </div>
+                <div class="description" data-dog-id=<%="#{dog.id}"%>><%= dog.bio %>...<span><strong>more</strong></span>
+                  <div class="inactive" id="more-info">
+                    <ul>
+                      <li><strong>Breed: </strong> <%= dog.breed %> </li>
+                      <li><strong>Age: </strong> <%= dog.age %></li>
+                      <li><strong>Gender: </strong><%= dog.gender %></li>
+                      <li><strong>Size: </strong><%= dog.size %></li>
+                      <li><strong>Play: </strong><%= dog.play %></li>
+                      <li><strong>Personality: </strong><%= dog.personality %></li>
+                    </ul>
+                  </div>
+                </div>
+
+              </div>
+              <div class="extra content">
+                <div class="ui avatar image">
+                  <%= image_tag(dog.user.avatar_url) %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="ui segment" id = "map-container">
+      <h3 class="ui dividing header">Parks between you and <%= @user.first_name %></h3>
+      <div id="mapbox_map">
+      </div>
+    </div>
+  </div>
+</div>

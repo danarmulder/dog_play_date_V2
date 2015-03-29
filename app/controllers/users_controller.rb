@@ -22,6 +22,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def show
+    @user = User.find(params[:id])
+    @dogs = @user.dogs
+  end
+
   private
   def user_params
     params.require(:user).permit(
