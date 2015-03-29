@@ -3,7 +3,7 @@ require 'rails_helper'
 feature "Sign-Up" do
   scenario "User signs up" do
     visit root_path
-    click_on "Sign Up"
+    click_on "top-signup-button"
     fill_in "First name", with: "Robert"
     fill_in "Last name", with: "Downey Jr."
     fill_in "Email", with: "sherlockholmes@yahoo.com"
@@ -18,7 +18,7 @@ feature "Sign-Up" do
 
   scenario "User signs up with non-mathing passwords and is not permitted" do
     visit root_path
-    click_on "Sign Up"
+    click_on "top-signup-button"
     fill_in "First name", with: "Robert"
     fill_in "Last name", with: "Downey Jr."
     fill_in "Email", with: "sherlockholmes@yahoo.com"
@@ -41,7 +41,7 @@ feature "Sign-Up" do
     )
 
     visit root_path
-    click_on "Sign Up"
+    click_on "top-signup-button"
     fill_in "First name", with: "Barbie"
     fill_in "Last name", with: "Streiss"
     fill_in "Email", with: "barbarastreisand@aol.com"
@@ -54,7 +54,7 @@ feature "Sign-Up" do
 
   scenario "User signs up without an image and default image is provided" do
     visit root_path
-    click_on "Sign Up"
+    click_on "top-signup-button"
     fill_in "First name", with: "Robert"
     fill_in "Last name", with: "Downey Jr."
     fill_in "Email", with: "sherlockholmes@yahoo.com"

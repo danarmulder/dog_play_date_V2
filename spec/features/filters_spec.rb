@@ -35,7 +35,7 @@ feature "filtering dog friend suggestions" do
     )
 
     visit root_path
-    click_on "Sign Up"
+    click_on "top-signup-button"
     fill_in "First name", with: "Robert"
     fill_in "Last name", with: "Downey Jr."
     fill_in "Email", with: "sherlockholmes@yahoo.com"
@@ -91,7 +91,7 @@ feature "filtering dog friend suggestions" do
     )
 
     visit root_path
-    click_on "Sign Up"
+    click_on "top-signup-button"
     fill_in "First name", with: "Robert"
     fill_in "Last name", with: "Downey Jr."
     fill_in "Email", with: "sherlockholmes@yahoo.com"
@@ -231,7 +231,6 @@ feature "filtering dog friend suggestions" do
     click_on "#{user.first_name}-profile-path"
     click_on "preferences-link"
     click_on "delete-filter-#{filter.id}-action"
-    save_and_open_page
 
     expect(page).not_to have_content("Preferences Breed: Lab")
   end

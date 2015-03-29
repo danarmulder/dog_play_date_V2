@@ -3,7 +3,7 @@ require 'rails_helper'
 feature "CRUD dogs" do
   scenario "After sign-up a user creates a dog" do
     visit root_path
-    click_on "Sign Up"
+    click_on "top-signup-button"
     fill_in "First name", with: "Robert"
     fill_in "Last name", with: "Downey Jr."
     fill_in "Email", with: "sherlockholmes@yahoo.com"

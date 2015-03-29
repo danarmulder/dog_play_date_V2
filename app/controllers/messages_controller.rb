@@ -8,7 +8,9 @@ class MessagesController < ApplicationController
     users_inbox_list = Conversation.where("(conversations.sender_id = ? ) OR (conversations.recipient_id =?)", current_user.id, current_user.id)
     @current_messages = []
     users_inbox_list.each do |conversation|
-      @current_messages.push(conversation.messages.last)
+      if conversation.messages.length > 0
+        @current_messages.push(conversation.messages.last)
+      end
     end
     @current_messages = @current_messages.sort{ |a,b| b.created_at <=> a.created_at }
     @messages= @conversation.messages
