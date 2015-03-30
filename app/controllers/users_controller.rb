@@ -2,10 +2,18 @@ class UsersController < ApplicationController
 
   def profile
     user = current_user
+    blocked_user_ids = user.blocked_users
+    @blocked_users = []
     @conversations = Conversation.where("(conversations.sender_id = ? ) OR (conversations.recipient_id =?)", user.id, user.id)
-    @dogs = Dog.where.not(user_id: current_user.id)
-    @users_dogs = current_user.dogs
+    blocked_user_ids.each do |blocked_id|
+      @conversations = @conversations.where.not("(conversations.sender_id = ? ) OR (conversations.recipient_id =?)", blocked_id.content.to_i, blocked_id.content.to_i)
+    end
+    @dogs = Dog.where.not(user_id: user.id)
     @filters = user.filters
+    @filters.each do |filter|
+      @dogs = filter.filter(@dogs)
+    end
+    @users_dogs = current_user.dogs
   end
 
   def edit
@@ -20,6 +28,11 @@ class UsersController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def show
+    @user = User.find(params[:id])
+    @dogs = @user.dogs
   end
 
   private

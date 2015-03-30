@@ -5,6 +5,7 @@ class FiltersController < ApplicationController
     @filters.each do |filter|
       @dogs = filter.filter(@dogs)
     end
+    @dogs = @dogs.shuffle
     @filter = @filters.new
   end
 

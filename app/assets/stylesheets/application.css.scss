@@ -24,6 +24,15 @@
  $light-gray: #969696;
  $deep-navy: #252C3D;
 
+ body {
+   margin-top: 45px;
+ }
+
+ .page-body {
+   margin: 50px !important;
+ }
+
+
  .image-div {
    background: url(/assets/img_00791.jpg) no-repeat center center fixed;
    -webkit-background-size: cover;
@@ -99,4 +108,8 @@
 .footer-text {
   text-align: center !important;
   margin: 5em !important;
+}
+
+.page-header {
+  margin-top: 20px !important;
 }
