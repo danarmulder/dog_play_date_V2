@@ -1,108 +1,64 @@
-<div class="ui grid" id="inbox">
-  <div class="row">
-    <div class="four wide column">
-      <div class="ui segment">
-        <div class="ui medium divided animated list">
-        <% @current_messages.each do |message| %>
-          <% conversation = Conversation.find(message.conversation_id) %>
-          <% if conversation.recipient_id == current_user.id %>
-            <% recipient = User.find(conversation.sender_id) %>
-          <% else %>
-            <% recipient = User.find(conversation.recipient_id) %>
-          <% end %>
-          <div class="item">
-            <%= image_tag recipient.avatar, class: "ui avatar image" %>
-            <div class="content">
-              <div class="header"><%= link_to recipient.user_name, conversation_messages_path(conversation), class: "header" %></div>
-              <% if message.user_id != current_user.id && message.read == false %>
-                <% if message.body.length > 90 %>
-                  <div class="description"><strong> <%= message.body[0..87] %>... </strong></div>
-                <% else %>
-                  <div class="description"> <strong><%= message.body %></strong> </div>
-                <% end %>
-              <% else %>
-                <% if message.body.length > 90 %>
-                  <div class="description"> <%= message.body[0..87] %>... </div>
-                <% else %>
-                  <div class="description"> <%= message.body %> </div>
-                <% end %>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-        </div>
-      </div>
-    </div>
-    <div class="six wide column">
-      <div class="ui segment">
-        <div class="ui comments">
-          <% if @conversation.sender_id == current_user.id %>
-            <% recipient = User.find(@conversation.recipient_id) %>
-          <% else %>
-            <% recipient = User.find(@conversation.sender_id) %>
-          <% end %>
-          <%= link_to 'Block User', filters_path(:filter => {type: "BlockedUser", content:"#{recipient.id}"}), method: 'post', id: "block-user-#{recipient.id}-action", class: "ui right floated ui button compact inverted red"%>
-          <h3 class="ui dividing header" id="<%= @conversation.id %>"><%= image_tag recipient.avatar_url, class: "ui avatar image" %>Conversation with <%= recipient.user_name %></h3>
-          <div id="container" class="">
-            <% if @over_ten %>
-            <%= link_to 'Show Previous', '?m=all', class: "avatar" %>
-            <% end %>
-            <% @messages.each do |message| %>
-              <% if message.body %>
-                <% user = User.find(message.user_id) %>
-                <div class="comment">
-                  <a class="avatar">
-                    <%= image_tag user.avatar, class: "avatar" %>
-                  </a>
-                  <div class="content">
-                    <a class="author"><%= user.user_name %></a>
-                    <div class="metadata">
-                      <span class="date"> <%= message.message_time %></span>
-                    </div>
-                    <div class="text_area">
-                      <%= message.body %>
-                    </div>
-                  </div>
-                </div>
-              <% end %>
-            <% end %>
-          </div>
-          <form class="ui reply form">
-            <div class="field">
-              <textarea id="body"></textarea>
-            </div>
-            <div class="comment" id="user_name" data-id="<%=User.find(current_user.id).user_name %>">
-              <a class="avatar" >
-                <%= image_tag current_user.avatar_url, class: "ui avatar image", id: "current_user" %>
-              </a>
-            </div>
-            <button class="ui blue labeled submit icon button" id = "reply-action" data-id="<%= current_user.id %>"><i class="icon edit"></i> Add Reply</button>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div class="six wide column">
-      <div class="ui segment" id = "map-container">
-        <h3 class="ui dividing header">Parks between you and <%= recipient.first_name %></h3>
-        <div id="map-canvas" data-user-zipcode=<%= current_user.zipcode %> data-other-zipcode=<%= recipient.zipcode %>>
-        </div>
-      </div>
-    </div>
-  </div>
+<div id="chat-log">
+  <input type="text" id="message">
+
+  <button id="disconnect">Disconnect</button>
 </div>
+<script>
+  function addMessage(msg) {
+    $("#chat-log").append("" + msg + "");
+  }
+  var key = '<%= @conv_id %>';
+  var socket, host;
+  host = "ws://<%= ENV['WEBSOCKET_HOST'] %>:<%= ENV['WEBSOCKET_PORT']%>?"+ key;
 
+  function connect() {
+    try {
+      socket = new WebSocket(host);
 
-<script id="add-newest-comment" type="text/x-handlebars-template" charset="utf-8">
-  <div class="comment">
-    <a class="avatar">
-      <img src={{userImage}} >
-    </a>
-    <div class="content">
-      <a class="author">{{author}}</a>
-      <div class="metadata">
-        <span class="date">Just Now</span>
-      </div>
-      <div class="text">{{convoText}}</div>
-    </div>
-  </div>
+      addMessage("Socket State: " + socket.readyState);
+
+      socket.onopen = function() {
+        addMessage("Socket Status: " + socket.readyState + " (open)");
+      }
+
+      socket.onclose = function() {
+        addMessage("Socket Status: " + socket.readyState + " (closed)");
+      }
+
+      socket.onmessage = function(msg) {
+        addMessage("Received: " + msg.data);
+      }
+    } catch(exception) {
+      addMessage("Error: " + exception);
+    }
+  }
+
+  $(function() {
+    connect();
+  });
+
+  function send() {
+    var text = $("#message").val();
+    if (text == '') {
+      addMessage("Please Enter a Message");
+      return;
+    }
+
+    try {
+      socket.send(text + 'L56HTY9999' + key);
+      addMessage("Sent: " + text)
+    } catch(exception) {
+      addMessage("Failed To Send")
+    }
+
+    $("#message").val('');
+  }
+
+  $('#message').keypress(function(event) {
+    if (event.keyCode == '13') { send(); }
+  });
+
+  $("#disconnect").click(function() {
+    socket.close()
+  });
 </script>

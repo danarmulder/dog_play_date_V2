@@ -40,6 +40,9 @@ gem 'bcrypt', '~> 3.1.7'
 
 gem 'carrierwave'
 
+gem 'thin'
+gem 'em-websocket'
+gem 'dotenv-rails'
 
 
 # Use unicorn as the app server
