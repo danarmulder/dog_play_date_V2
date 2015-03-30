@@ -9,11 +9,9 @@ class MessagesController < ApplicationController
   EM.run do
     EM::WebSocket.start(host: ENV['WEBSOCKET_HOST'], port: ENV['WEBSOCKET_PORT']) do |ws|
       crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE'])
-      p crypt
       ws.onopen do |handshake|
         conversation_data = crypt.decrypt_and_verify(handshake.query_string)
         @clients << {socket: ws, conv_info: conversation_data}
-        ws.send Conversation.find(conversation_data[:conversation_id]).messages.last(10).to_json
       end
 
       ws.onclose do
@@ -30,7 +28,7 @@ class MessagesController < ApplicationController
         if new_message.save
           @clients.each do |socket|
             if socket[:conv_info][:conversation_id] == conversation[:conversation_id]
-              socket[:socket].send new_message.to_json
+              socket[:socket].send new_message.chat_show
             end
           end
         else
@@ -43,20 +41,21 @@ class MessagesController < ApplicationController
   end
 
   def index
-    # finding conversations that do not have blocked user ids in them
+
     crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE'])
     @conv_id = crypt.encrypt_and_sign({:user_id=>current_user.id,:conversation_id=>@conversation.id})
     users_inbox_list = Conversation.where("(conversations.sender_id = ? ) OR (conversations.recipient_id =?)", current_user.id, current_user.id)
+    # finding conversations that do not have blocked user ids in them
     current_user.blocked_users_info.each do |blocked_hash|
       users_inbox_list = users_inbox_list.where.not("(conversations.sender_id = ? ) OR (conversations.recipient_id =?)", blocked_hash[:user].id, blocked_hash[:user].id)
     end
-    @current_messages = []
+    @latest_messages = []
     users_inbox_list.each do |conversation|
       if conversation.messages.length > 0
-        @current_messages.push(conversation.messages.last)
+        @latest_messages.push(conversation.messages.last)
       end
     end
-    @current_messages = @current_messages.sort{ |a,b| b.created_at <=> a.created_at }
+    @latest_messages = @latest_messages.sort{ |a,b| b.created_at <=> a.created_at }
     @messages= @conversation.messages
     @messages = @conversation.messages
     if @messages.length > 10

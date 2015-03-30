@@ -1,35 +1,141 @@
-<div id="chat-log">
-  <input type="text" id="message">
-
-  <button id="disconnect">Disconnect</button>
+<div class="ui grid" id="inbox">
+  <div class="row">
+    <div class="four wide column">
+      <div class="ui segment">
+        <div class="ui medium divided animated list">
+        <% @latest_messages.each do |message| %>
+          <% conversation = Conversation.find(message.conversation_id) %>
+          <% if conversation.recipient_id == current_user.id %>
+            <% recipient = User.find(conversation.sender_id) %>
+          <% else %>
+            <% recipient = User.find(conversation.recipient_id) %>
+          <% end %>
+          <div class="item">
+            <%= image_tag recipient.avatar, class: "ui avatar image" %>
+            <div class="content">
+              <div class="header"><%= link_to recipient.user_name, conversation_messages_path(conversation), class: "header" %></div>
+              <% if message.user_id != current_user.id && message.read == false %>
+                <% if message.body.length > 90 %>
+                  <div class="description"><strong> <%= message.body[0..87] %>... </strong></div>
+                <% else %>
+                  <div class="description"> <strong><%= message.body %></strong> </div>
+                <% end %>
+              <% else %>
+                <% if message.body.length > 90 %>
+                  <div class="description"> <%= message.body[0..87] %>... </div>
+                <% else %>
+                  <div class="description"> <%= message.body %> </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="six wide column">
+      <div class="ui segment">
+        <div class="ui comments">
+        <% if @conversation.sender_id == current_user.id %>
+          <% recipient = User.find(@conversation.recipient_id) %>
+        <% else %>
+          <% recipient = User.find(@conversation.sender_id) %>
+        <% end %>
+        <%= link_to 'Block User', filters_path(:filter => {type: "BlockedUser", content:"#{recipient.id}"}), method: 'post', id: "block-user-#{recipient.id}-action", class: "ui right floated ui button compact inverted red"%>
+        <h3 class="ui dividing header" id="<%= @conversation.id %>"><%= image_tag recipient.avatar_url, class: "ui avatar image" %>Conversation with <%= recipient.user_name %></h3>
+          <div id="container">
+            <% if @over_ten %>
+            <%= link_to 'Show Previous', '?m=all', class: "avatar" %>
+            <% end %>
+            <% @messages.each do |message| %>
+              <% if message.body %>
+                <% user = User.find(message.user_id) %>
+                <div class="comment">
+                  <a class="avatar">
+                    <%= image_tag user.avatar, class: "avatar" %>
+                  </a>
+                  <div class="content">
+                    <a class="author"><%= user.user_name %></a>
+                    <div class="metadata">
+                      <span class="date"> <%= message.message_time %></span>
+                    </div>
+                    <div class="text_area">
+                      <%= message.body %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+          <form class="ui reply form">
+            <div class="field">
+              <div id="chat-log">
+                <textarea id="message" data-content=""></textarea>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="six wide column">
+     <div class="ui segment" id = "map-container">
+       <h3 class="ui dividing header">Parks between you and <%= recipient.first_name %></h3>
+       <div id="mapbox_map">
+       </div>
+     </div>
+   </div>
+  </div>
 </div>
 <script>
   function addMessage(msg) {
-    $("#chat-log").append("" + msg + "");
+    var content = JSON.parse(msg);
+    var context = {
+      userImage: content.image,
+      author: content.username,
+      convoText: content.body,
+      time: content.created_at
+    };
+
+    var source = $('#add-newest-comment').html();
+    var template = Handlebars.compile(source);
+
+
+    var newComment = template(context);
+
+    $('#container').append(newComment);
   }
+
+
   var key = '<%= @conv_id %>';
   var socket, host;
   host = "ws://<%= ENV['WEBSOCKET_HOST'] %>:<%= ENV['WEBSOCKET_PORT']%>?"+ key;
+
+  function onErrors(msg){
+    $("#chat-log").append("Errors " + msg + "");
+    $("#message").popup({content : msg});
+  }
+  function socketHealth(msg){
+  }
 
   function connect() {
     try {
       socket = new WebSocket(host);
 
-      addMessage("Socket State: " + socket.readyState);
+      socketHealth("Socket State: " + socket.readyState);
 
       socket.onopen = function() {
-        addMessage("Socket Status: " + socket.readyState + " (open)");
+        socketHealth("Socket Status: " + socket.readyState + " (open)");
       }
 
       socket.onclose = function() {
-        addMessage("Socket Status: " + socket.readyState + " (closed)");
+        socketHealth("Socket Status: " + socket.readyState + " (closed)");
       }
 
       socket.onmessage = function(msg) {
-        addMessage("Received: " + msg.data);
+        addMessage(msg.data);
       }
     } catch(exception) {
-      addMessage("Error: " + exception);
+      onErrors("Error: " + exception);
     }
   }
 
@@ -40,15 +146,14 @@
   function send() {
     var text = $("#message").val();
     if (text == '') {
-      addMessage("Please Enter a Message");
+      onErrors("Please Enter a Message");
       return;
     }
 
     try {
       socket.send(text + 'L56HTY9999' + key);
-      addMessage("Sent: " + text)
     } catch(exception) {
-      addMessage("Failed To Send")
+      onErrors("Failed To Send")
     }
 
     $("#message").val('');
@@ -61,4 +166,18 @@
   $("#disconnect").click(function() {
     socket.close()
   });
+</script>
+<script id="add-newest-comment" type="text/x-handlebars-template" charset="utf-8">
+  <div class="comment">
+    <a class="avatar">
+      <img src={{userImage}} >
+    </a>
+    <div class="content">
+      <a class="author">{{author}}</a>
+      <div class="metadata">
+        <span class="date">{{time}}</span>
+      </div>
+      <div class="text">{{convoText}}</div>
+    </div>
+  </div>
 </script>
