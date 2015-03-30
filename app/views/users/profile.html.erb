@@ -115,16 +115,25 @@
               <% @filters.each do |filter| %>
               <tr>
                 <% if filter.id != nil %>
-                <% if filter.type == "Zipcode" %>
-                <td>Based on <%= filter.type %>: <%= filter.content %></td>
-                <td><%= link_to "Edit Location", edit_filter_path(filter), id: "edit-filter-#{filter.id}" %></td>
-                <% else %>
-                <td><%= filter.type %> Preference: <%= filter.content %></td>
-                <td><%= link_to "Edit Preference", edit_filter_path(filter), id: "edit-filter-#{filter.id}" %></td>
-                <td><%= link_to "Delete Preference", filter_path(filter.id), method: :delete, data: {confirm: "Are you sure you want to delete this preference?"}, id: "delete-filter-#{filter.id}-action" %></td>
-                <% end %>
+                  <% if filter.type == "Zipcode" %>
+                    <td>Based on <%= filter.type %>: <%= filter.content %></td>
+                    <td><%= link_to "Edit Location", edit_filter_path(filter), id: "edit-filter-#{filter.id}" %></td>
+                    <td></td>
+                  <% elsif filter.type == "BlockedUser" %>
+                  <% else %>
+                    <td><%= filter.type %> Preference: <%= filter.content %></td>
+                    <td><%= link_to "Edit Preference", edit_filter_path(filter), id: "edit-filter-#{filter.id}" %></td>
+                    <td><%= link_to "Delete Preference", filter_path(filter.id), method: :delete, data: {confirm: "Are you sure you want to delete this preference?"}, id: "delete-filter-#{filter.id}-action" %></td>
+                  <% end %>
                 <% end %>
               </tr>
+              <% end %>
+              <% current_user.blocked_users_info.each do |blocked_hash| %>
+                <tr>
+                  <td>Blocked User: <%= (blocked_hash[:user]).user_name %></td>
+                  <td><%= link_to "Unblock User", filter_path(blocked_hash[:filter_id]), method: :delete, data: {confirm: "Are you sure you want to unblock this user?"}, id: "unblock-user-#{blocked_hash[:name]}-action" %></td>
+                  <td></td>
+                </tr>
               <% end %>
             </tbody>
           </table>
@@ -155,6 +164,7 @@
             <% recipient = User.find(conversation.sender_id) %>
             <% end %>
             <div class="item">
+              <%= link_to 'Block User', filters_path(:filter => {type: "BlockedUser", content:"#{recipient.id}"}), method: 'post', id: "block-user-#{recipient.id}-action", class: "ui right floated ui button compact inverted red"%>
               <%= link_to 'See Conversation', conversation_messages_path(conversation), class: "right floated compact ui button", id: "see-conversation-#{conversation.id}" %>
               <%= image_tag recipient.avatar, class: "ui avatar image " %>
               <div class="content">

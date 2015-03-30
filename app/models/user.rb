@@ -38,4 +38,14 @@ class User < ActiveRecord::Base
     count
   end
 
+  def blocked_users_info
+    blocked_user_info = []
+    blocked_users.each do |blocked_id|
+      blocked = {}
+      blocked[:user] = User.find(blocked_id.content.to_i)
+      blocked[:filter_id] = blocked_id.id
+      blocked_user_info.push(blocked)
+    end
+    blocked_user_info
+  end
 end

@@ -5,7 +5,11 @@ class MessagesController < ApplicationController
     :authenticate_user
   end
   def index
+    # finding conversations that do not have blocked user ids in them
     users_inbox_list = Conversation.where("(conversations.sender_id = ? ) OR (conversations.recipient_id =?)", current_user.id, current_user.id)
+    current_user.blocked_users_info.each do |blocked_hash|
+      users_inbox_list = users_inbox_list.where.not("(conversations.sender_id = ? ) OR (conversations.recipient_id =?)", blocked_hash[:user].id, blocked_hash[:user].id)
+    end
     @current_messages = []
     users_inbox_list.each do |conversation|
       if conversation.messages.length > 0

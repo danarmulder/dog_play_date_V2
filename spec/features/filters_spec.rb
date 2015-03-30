@@ -379,4 +379,70 @@ feature "filtering dog friend suggestions" do
     expect(page).not_to have_content("Puddle")
     expect(page).to have_content("Personality Preference: Laid-Back")
   end
+  scenario "a user can block another user from their profile page" do
+    user = User.create!(
+      first_name: "Barbara",
+      last_name: "Streisand",
+      zipcode: 94117,
+      email: "barbarastreisand@aol.com",
+      password: "1234",
+      password_confirmation: "1234"
+    )
+
+    andrew = User.create!(
+      first_name: "Andrew",
+      last_name: "Garfield",
+      email: "Andrew@Garfield.com",
+      zipcode: 94114,
+      password: "12345678"
+    )
+
+    lucky = Dog.create!(
+      name: "Lucky",
+      breed: "shar pei",
+      age: "2",
+      size: "Medium",
+      play: "Food-Motivated",
+      gender: "Female",
+      personality: "Laid-Back",
+      zipcode: 94117,
+      user_id: andrew.id
+    )
+
+    puddle = Dog.create!(
+      name: "Puddle",
+      breed: "shar pei",
+      age: "2",
+      size: "Medium",
+      play: "Food-Motivated",
+      gender: "Female",
+      personality: "Laid-Back",
+      zipcode: 94117,
+      user_id: user.id
+    )
+
+    convo = Conversation.create!(
+      sender_id: user.id,
+      recipient_id: andrew.id,
+    )
+
+    andrews_message = convo.messages.create!(
+      body: "Hey there! Cute dog",
+      user_id: andrew.id
+    )
+
+    visit root_path
+    click_on "Sign In"
+    fill_in "Email", with: "barbarastreisand@aol.com"
+    fill_in "Password", with: "1234"
+    click_on "signing-user-in-action"
+    click_on "#{user.first_name}-profile-path"
+    expect(page).to have_content("Block User")
+    click_on "block-user-#{andrew.id}-action"
+    click_on "Barbara Streisand"
+
+    expect(page).not_to have_content("Hey there! Cute dog")
+    expect(page).not_to have_content("Lucky")
+    expect(page).to have_content("Preference Blocked User: Andrew G.")
+  end
 end
