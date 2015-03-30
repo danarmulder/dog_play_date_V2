@@ -50,18 +50,11 @@
  }
 
  #map-canvas {
-   height: 30%;
+   height: 100%;
    margin: 0;
    padding: 0;}
 
-#mapbox_map {
-  position:absolute;
-  top:0;
-  bottom:0;
-  width:90%;
-  height: 350px;
-  margin-top: 60px;
-}
+
 #map-container{
   height: 450px;
   width: 500px;

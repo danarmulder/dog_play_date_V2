@@ -83,7 +83,7 @@
     <div class="six wide column">
       <div class="ui segment" id = "map-container">
         <h3 class="ui dividing header">Parks between you and <%= recipient.first_name %></h3>
-        <div id="mapbox_map">
+        <div id="map-canvas" data-user-zipcode=<%= current_user.zipcode %> data-other-zipcode=<%= recipient.zipcode %>>
         </div>
       </div>
     </div>
