@@ -294,4 +294,29 @@ describe Filter, :type => :model do
     expect(dogs).to eq(["puddle"])
     expect(dogs).not_to eq(["lucky"])
   end
+
+  it "validates that a user can only have one gender filter" do
+    emma = User.create!(
+      first_name: "Emma",
+      last_name: "Stone",
+      email: "Emma@stone.com",
+      zipcode: 94118,
+      password: "12345678"
+    )
+
+    gender_filter = Filter.create(
+      type: "Gender",
+      content: "Female",
+      user_id: emma.id
+    )
+
+    gender_filter_2 = Filter.create(
+      type: "Gender",
+      content: "Male",
+      user_id: emma.id
+    )
+
+    expect(emma.filters.where(type: "Gender").length).to eq(1)
+    expect(gender_filter_2.valid?).to eq(false)
+  end
 end
