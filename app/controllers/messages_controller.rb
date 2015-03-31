@@ -41,7 +41,6 @@ class MessagesController < ApplicationController
   end
 
   def index
-
     crypt = ActiveSupport::MessageEncryptor.new(ENV['SECRET_KEY_BASE'])
     @conv_id = crypt.encrypt_and_sign({:user_id=>current_user.id,:conversation_id=>@conversation.id})
     users_inbox_list = Conversation.where("(conversations.sender_id = ? ) OR (conversations.recipient_id =?)", current_user.id, current_user.id)

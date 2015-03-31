@@ -70,7 +70,8 @@
           <form class="ui reply form">
             <div class="field">
               <div id="chat-log">
-                <textarea id="message" data-content=""></textarea>
+                <p class="error"></p>
+                <textarea id="message" title='Please enter a message'></textarea>
               </div>
             </div>
           </form>
@@ -105,14 +106,17 @@
     $('#container').append(newComment);
   }
 
-
   var key = '<%= @conv_id %>';
   var socket, host;
   host = "ws://<%= ENV['WEBSOCKET_HOST'] %>:<%= ENV['WEBSOCKET_PORT']%>?"+ key;
 
   function onErrors(msg){
-    $("#chat-log").append("Errors " + msg + "");
-    $("#message").popup({content : msg});
+    $("#chat-log .error").text( msg);
+    setTimeout(function() {
+      console.log("setimeout");
+      $( "#chat-log .error" ).text("");
+    }, 3000);
+
   }
   function socketHealth(msg){
   }
@@ -143,9 +147,11 @@
     connect();
   });
 
+
   function send() {
     var text = $("#message").val();
     if (text == '') {
+
       onErrors("Please Enter a Message");
       return;
     }
