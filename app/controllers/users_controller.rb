@@ -13,6 +13,7 @@ class UsersController < ApplicationController
     @filters.each do |filter|
       @dogs = filter.filter(@dogs)
     end
+    @dogs = @dogs.shuffle
     @users_dogs = current_user.dogs
   end
 

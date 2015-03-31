@@ -55,9 +55,9 @@
   <div class="eleven wide column">
     <div class="ui segment">
       <div class="ui segment">
-        <a class="ui ribbon label">Suggested Matches</a>
+        <h3 class="ui header center aligned">Potential Playmates</h3>
         <div class="ui three column grid">
-          <% @dogs.each do |dog| %>
+          <% @dogs[0..2].each do |dog| %>
             <div class="column">
               <div class="ui fluid card">
                 <div class="image dimmable">
@@ -170,8 +170,8 @@
               <div class="content">
                 <div class="header"><%= link_to recipient.user_name, conversation_messages_path(conversation), class: "header" %></div>
                 <% if conversation.messages.last %>
-                <% if conversation.messages.last.body.length > 90 %>
-                <div class="description"> <%= conversation.messages.last.body[0..87] %>... </div>
+                <% if conversation.messages.last.body.length > 60 %>
+                <div class="description"> <%= conversation.messages.last.body[0..59] %>... </div>
                 <% else %>
                 <div class="description"> <%= conversation.messages.last.body %> </div>
                 <% end %>
