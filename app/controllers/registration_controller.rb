@@ -1,5 +1,6 @@
 class RegistrationController < ApplicationController
-
+  require 'rest-client'
+  require 'json'
   def new
     @user = User.new
   end
@@ -14,7 +15,9 @@ class RegistrationController < ApplicationController
       render :new
       flash[:alert]= "User could not be signed up"
     end
-
+    response = RestClient.post "https://maps.googleapis.com/maps/api/geocode/json?address=" + @user.zipcode.to_s + "&key=" + GOOGLE_API_KEY
+      json = JSON.parse(response)
+      session[:location] = json[results][geometry][location]
   end
 
   private

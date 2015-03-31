@@ -44,6 +44,8 @@ gem 'thin'
 gem 'em-websocket'
 gem 'dotenv-rails'
 
+gem 'rest-client'
+
 
 # Use unicorn as the app server
 # gem 'unicorn'

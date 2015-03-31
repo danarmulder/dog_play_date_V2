@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-
+  require 'rest-client'
+  require 'json'
   def profile
     user = current_user
     blocked_user_ids = user.blocked_users
@@ -15,6 +16,12 @@ class UsersController < ApplicationController
     end
     @dogs = @dogs.shuffle
     @users_dogs = current_user.dogs
+
+    response = RestClient.get "https://maps.googleapis.com/maps/api/geocode/json?address=" + user.zipcode.to_s + "&key=" + ENV['GOOGLE_API_KEY']
+      json = JSON.parse(response)
+      user.latitude = json["results"][0]["geometry"]["location"]["lat"]
+      user.longitude = json["results"][0]["geometry"]["location"]["lng"]
+      user.save
   end
 
   def edit
