@@ -17,11 +17,6 @@ class UsersController < ApplicationController
     @dogs = @dogs.shuffle
     @users_dogs = current_user.dogs
 
-    response = RestClient.get "https://maps.googleapis.com/maps/api/geocode/json?address=" + user.zipcode.to_s + "&key=" + ENV['GOOGLE_API_KEY']
-      json = JSON.parse(response)
-      user.latitude = json["results"][0]["geometry"]["location"]["lat"]
-      user.longitude = json["results"][0]["geometry"]["location"]["lng"]
-      user.save
   end
 
   def edit
@@ -36,6 +31,11 @@ class UsersController < ApplicationController
     else
       render :edit
     end
+    response = RestClient.get "https://maps.googleapis.com/maps/api/geocode/json?address=" + @user.zipcode.to_s + "&key=" + ENV['GOOGLE_API_KEY']
+      json = JSON.parse(response)
+      @user.latitude = json["results"][0]["geometry"]["location"]["lat"]
+      @user.longitude = json["results"][0]["geometry"]["location"]["lng"]
+      @user.save
   end
 
   def show
