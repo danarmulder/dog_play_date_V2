@@ -1,5 +1,8 @@
 <div class="page-body">
   <h2>Doggies Near You<i class="paw icon"></i></h2>
+  <% if @dogs == [] %>
+    No dogs are currently registerred in your area :(
+  <% end %>
   <div class="ui segment">
     <div class="ui form">
       <form accept-charset="UTF-8" action="/dogs" method="get">

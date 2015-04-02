@@ -1,6 +1,17 @@
 $(document).ready(function(){
-  L.mapbox.accessToken = 'pk.eyJ1IjoiZGF5eW51aGhoIiwiYSI6IlNrUWlXd0kifQ.PkwjuKO6Clksu2OGIoePeA';
-  $( "#mapbox_map" ).load(mapBox());
+  var dogParksCollection = [];
+  $.ajax({
+      type: "get",
+      url: 'https://apricot-crisp-1097.herokuapp.com/geojson',
+      dataType:"json",
+    }).done(function(results) {
+      dogParksCollection = results[0];
+      buildmap();
+    });
+  function buildmap(){
+    L.mapbox.accessToken = 'pk.eyJ1IjoiZGF5eW51aGhoIiwiYSI6IlNrUWlXd0kifQ.PkwjuKO6Clksu2OGIoePeA';
+    $( "#mapbox_map" ).load(mapBox());
+  }
 
   function mapBox(){
     var latitude = $('#mapbox_map')[0].dataset.userlatitude;
@@ -39,5 +50,6 @@ $(document).ready(function(){
 
     map.fitBounds(usersLocations.getBounds());
 
+    var dogParksLayer = L.mapbox.featureLayer().setGeoJSON(dogParksCollection).addTo(map);
   }
 });
