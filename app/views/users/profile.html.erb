@@ -33,8 +33,8 @@
               <%= dog.name %>
             </div>
             <div class="description">
-              <%= dog.bio %>
-              <%= dog.personality %>
+              <p><strong>Bio:</strong><%= dog.bio %><p>
+              <p><strong>Personality:</strong><%= dog.personality %><p>
             </div>
           </div>
           <div class="ui bottom attached segment">
@@ -164,7 +164,6 @@
                   <% else %>
                   <div class="description"> <%= conversation.messages.last.body %> </div>
                   <% end %>
-
                 <% end %>
               </div>
             </div>
