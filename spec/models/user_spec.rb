@@ -4,7 +4,9 @@ RSpec.describe User, :type => :model do
   it "validates the user is not created without an email" do
     lindeman = User.create(first_name: "Andy", last_name: "Lindeman")
 
+    p User.all
     expect(User.all.length).to eq(0)
+    expect(lindeman.valid?).to eq(false)
   end
 
   it "validates the password is longer than 3 characters" do
@@ -17,6 +19,7 @@ RSpec.describe User, :type => :model do
       )
 
     expect(User.all.length).to eq(0)
+    expect(dog_lover.valid?).to eq(false)
   end
 
   it "validates the first name is longer than 1 character" do

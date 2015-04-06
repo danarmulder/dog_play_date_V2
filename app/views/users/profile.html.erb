@@ -53,50 +53,50 @@
     <div class="ui segment">
       <div class="ui segment">
         <h3 class="ui header center aligned">Potential Playmates</h3>
-        <div class="ui three column grid">
-          <% @dogs[0..2].each do |dog| %>
-            <div class="column">
-              <div class="ui fluid pop-out card">
-                <div class="image dimmable">
-                  <%= image_tag(dog.avatar_url) %>
-                </div>
-                <div class="content dog" data-dog-id="<%= dog.id %>">
-                  <div class="header"><%= dog.name %></div>
-                  <div class="meta">
-                    Adoring Human: <%= link_to dog.user.user_name, user_path(dog.user), class: "group" %>
+        <div class="ui three column stackable grid">
+            <% @dogs[0..2].each do |dog| %>
+              <div class="column">
+                <div class="ui fluid card">
+                  <div class="image dimmable">
+                    <%= image_tag(dog.avatar_url) %>
                   </div>
-                  <div class="description" data-dog-id=<%="#{dog.id}"%>><%= dog.bio %>...<span><strong>more</strong></span>
-                    <div class="inactive" id="more-info">
-                      <ul>
-                        <li><strong>Breed: </strong> <%= dog.breed %> </li>
-                        <li><strong>Age: </strong> <%= dog.age %></li>
-                        <li><strong>Gender: </strong><%= dog.gender %></li>
-                        <li><strong>Size: </strong><%= dog.size %></li>
-                        <li><strong>Play: </strong><%= dog.play %></li>
-                        <li><strong>Personality: </strong><%= dog.personality %></li>
-                      </ul>
+                  <div class="content info dog" data-dog-id="<%= dog.id %>">
+                    <div class="header"><%= dog.name %></div>
+                    <div class="meta">
+                      Adoring Human: <%= link_to dog.user.user_name, user_path(dog.user), class: "group" %>
                     </div>
-                  </div>
+                    <div class="description" data-dog-id=<%="#{dog.id}"%>><%= dog.bio %>...<span><strong>more</strong></span>
+                      <div class="inactive" id="more-info">
+                        <ul>
+                          <li><strong>Breed: </strong> <%= dog.breed %> </li>
+                          <li><strong>Age: </strong> <%= dog.age %></li>
+                          <li><strong>Gender: </strong><%= dog.gender %></li>
+                          <li><strong>Size: </strong><%= dog.size %></li>
+                          <li><strong>Play: </strong><%= dog.play %></li>
+                          <li><strong>Personality: </strong><%= dog.personality %></li>
+                        </ul>
+                      </div>
+                    </div>
 
-                </div>
-                <div class="extra content">
-                  <div class="ui avatar image">
-                    <%= image_tag(dog.user.avatar_url) %>
                   </div>
-                  <% if current_user %>
-                  <%= dog.user.user_name  %> <%= link_to 'Message me!', conversations_path(sender_id: current_user.id, recipient_id: dog.user.id), method: 'post'%>
-                  <% end %>
+                  <div class="extra content">
+                    <div class="ui avatar image">
+                      <%= image_tag(dog.user.avatar_url) %>
+                    </div>
+                    <% if current_user %>
+                    <%= dog.user.user_name  %> | <%= link_to 'Message me!', conversations_path(sender_id: current_user.id, recipient_id: dog.user.id), method: 'post'%>
+                    <% end %>
+                  </div>
                 </div>
               </div>
-            </div>
-          <% end %>
+            <% end %>
         </div>
         <h4>Dog Preferences</h4>
         <div class="ui segment">
           <table class="ui table">
             <thead>
               <tr>
-                <th>Preference</th>
+                <th>Preferences</th>
                 <th></th>
                 <th></th>
               </tr>
@@ -106,24 +106,35 @@
               <tr>
                 <% if filter.id != nil %>
                   <% if filter.type == "Zipcode" %>
-                    <td>Based on <%= filter.type %>: <%= filter.content %></td>
-                    <td><%= link_to "Edit Location", edit_filter_path(filter), id: "edit-filter-#{filter.id}" %></td>
+                    <td>Based on <%= filter.type %>: <%= current_user.zipcode %></td>
                     <td></td>
                   <% elsif filter.type == "BlockedUser" %>
                   <% else %>
                     <td><%= filter.type %> Preference: <%= filter.content %></td>
-                    <td><%= link_to "Edit Preference", edit_filter_path(filter), id: "edit-filter-#{filter.id}" %></td>
-                    <td><%= link_to "Delete Preference", filter_path(filter.id), method: :delete, data: {confirm: "Are you sure you want to delete this preference?"}, id: "delete-filter-#{filter.id}-action" %></td>
                   <% end %>
                 <% end %>
               </tr>
               <% end %>
-              <% current_user.blocked_users_info.each do |blocked_hash| %>
-                <tr>
-                  <td>Blocked User: <%= (blocked_hash[:user]).user_name %></td>
-                  <td><%= link_to "Unblock User", filter_path(blocked_hash[:filter_id]), method: :delete, data: {confirm: "Are you sure you want to unblock this user?"}, id: "unblock-user-#{blocked_hash[:name]}-action" %></td>
-                  <td></td>
-                </tr>
+            </tbody>
+          </table>
+          <h4>Blocked Users</h4>
+          <table class="ui table">
+            <thead>
+              <tr>
+                <th>
+                  Usernames
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if current_user.blocked_users_info %>
+                  <tr>
+                    <td>Blocked Users:
+                      <% current_user.blocked_users_info.each do |blocked_hash| %>
+                        <%= "#{(blocked_hash[:user]).user_name}, "%>
+                      <% end %>
+                    </td>
+                  </tr>
               <% end %>
             </tbody>
           </table>
@@ -175,16 +186,15 @@
   </div>
 </div>
 
-
 <script charset="utf-8" id="dog-modal" text="text/x-handlebars-template">
 <div class="ui modal">
   <i class="close icon"></i>
-  <div class="header">{{name}}</div>
+  <div class="ui center aligned header">{{name}}</div>
   <div class="content">
     <div class="ui medium circular image">
       <img src ={{image}}>
     </div>
-    <div class="description">
+    <div class="description text">
       <h3>A Little Bit About Me</h3>
       <p>{{bio}}</p>
       <ul>

@@ -10,9 +10,10 @@ class User < ActiveRecord::Base
   mount_uploader :avatar, AvatarUploader, :default_user_url => "/images/fallback/missinguser.jpg"
 
   validates :email, uniqueness: true
-  validates :first_name, :last_name, :email, presence: true
+  validates :first_name, :last_name, :email, :zipcode, presence: true
   validates :password, presence: true, :if => :password
   validates :password, length: {minimum: 4}, :if => :password
+  validates :zipcode, length: {is: 5}
   validates :first_name, length: {minimum: 2}
 
   def full_name
@@ -76,4 +77,40 @@ class User < ActiveRecord::Base
     end
     blocked_user_info
   end
+
+  def users_blocked_them
+    Filter.where({type: "BlockedUser", content: "#{id}"})
+  end
+
+  def users_they_blocked
+    filters.where({type: "BlockedUser", user_id: id})
+  end
+
+  def unavailable_users
+    users_to_not_include = []
+    users_they_blocked.each do |filter|
+      users_to_not_include.push(filter.content.to_i)
+    end
+    users_blocked_them.each do |filter|
+      users_to_not_include.push(filter.user_id)
+    end
+    users_to_not_include
+  end
+
+  def dogs_user_can_see
+    dogs = Dog.all
+    unavailable_users.each do |blocked_user_id|
+      dogs = dogs.where.not(user_id: blocked_user_id)
+    end
+    dogs = dogs.where.not(user_id: id)
+  end
+
+  def conversations_user_can_see
+    conversations = Conversation.where("(conversations.sender_id = ? ) OR (conversations.recipient_id =?)", id, id)
+    unavailable_users.each do |blocked_user_id|
+      conversations = conversations.where.not("(conversations.sender_id = ? ) OR (conversations.recipient_id =?)", blocked_user_id, blocked_user_id)
+    end
+    conversations
+  end
+
 end

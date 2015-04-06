@@ -1,15 +1,12 @@
 class DogsController < ApplicationController
   before_action :authenticate_user, only: [:new, :create, :destroy, :edit]
-  def index
-    @dogs=Dog.all
-  end
 
   def new
     @dog = current_user.dogs.new
   end
 
   def index
-    @dogs = Dog.all
+    @dogs = current_user.dogs_user_can_see
     if current_user
       zip_filter = current_user.filters.where(:type=> "Zipcode")[0]
       @dogs = zip_filter.filter(@dogs)

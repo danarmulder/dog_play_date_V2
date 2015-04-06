@@ -3,20 +3,18 @@ class UsersController < ApplicationController
   require 'json'
   def profile
     user = current_user
-    blocked_user_ids = user.blocked_users
-    @blocked_users = []
-    @conversations = Conversation.where("(conversations.sender_id = ? ) OR (conversations.recipient_id =?)", user.id, user.id)
-    blocked_user_ids.each do |blocked_id|
-      @conversations = @conversations.where.not("(conversations.sender_id = ? ) OR (conversations.recipient_id =?)", blocked_id.content.to_i, blocked_id.content.to_i)
-    end
-    @dogs = Dog.where.not(user_id: user.id)
+    @conversations = user.conversations_user_can_see
+    @dogs = user.dogs_user_can_see
     @filters = user.filters
-    @filters.each do |filter|
-      @dogs = filter.filter(@dogs)
+    if @dogs
+      @filters.each do |filter|
+        @dogs = filter.filter(@dogs)
+      end
     end
-    @dogs = @dogs.shuffle
+    if @dogs
+      @dogs.shuffle
+    end
     @users_dogs = current_user.dogs
-
   end
 
   def edit
@@ -28,14 +26,17 @@ class UsersController < ApplicationController
     if @user.update(user_params)
       redirect_to profile_path
       flash[:notice] = "Profile successfully updated"
-    else
-      render :edit
-    end
-    response = RestClient.get "https://maps.googleapis.com/maps/api/geocode/json?address=" + @user.zipcode.to_s + "&key=" + ENV['GOOGLE_API_KEY']
+      response = RestClient.get "https://maps.googleapis.com/maps/api/geocode/json?address=" + @user.zipcode.to_s + "&key=" + ENV['GOOGLE_API_KEY']
       json = JSON.parse(response)
       @user.latitude = json["results"][0]["geometry"]["location"]["lat"]
       @user.longitude = json["results"][0]["geometry"]["location"]["lng"]
       @user.save
+      @user.filters.where({type: "Zipcode"}).destroy
+      filter = @user.filters.new({type:"Zipcode", content: "#{@user.latitude}, #{@user.longitude}"})
+      filter.save
+    else
+      render :edit
+    end
   end
 
   def show
