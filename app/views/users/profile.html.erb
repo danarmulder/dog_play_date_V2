@@ -179,8 +179,8 @@
                 <div class="content">
                   <% if conversation.messages.last %>
                   <div class="header"><%= link_to recipient.user_name, conversation_messages_path(conversation), id: 'message_list' %><%= conversation.messages.last.message_time %>
-                    <% if conversation.unread_messages_count > 0 %>
-                      <div class="ui red label" id='message_icon'> <%= conversation.unread_messages_count %> </div>
+                    <% if conversation.unread_messages_count(current_user.id) > 0 %>
+                      <div class="ui red label" id='message_icon'> <%= conversation.unread_messages_count(current_user.id) %> </div>
                     <% end %>
                   </div>
                     <% if conversation.messages.last.body.length > 40 %>
