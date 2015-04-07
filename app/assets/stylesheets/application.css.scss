@@ -172,6 +172,7 @@ a:hover, .button:hover {
 #message_icon{
   margin-left: 10px;
 }
+
 .active {
   color: $primary-green !important;
   font-weight: bold;
@@ -186,8 +187,10 @@ a:hover, .button:hover {
 
 .description.text{
   color: $dark-gray !important;
+  font-weight: normal !important;
 }
-@media (max-width: 767px) {
+
+@media all and (max-width: 767px) {
   .ui.mobile.only.grid, .ui.grid >.mobile.only.row {
     display: block!important;
     width: 100% !important;
@@ -198,9 +201,13 @@ a:hover, .button:hover {
   .ui.breadcrumb.registration {
     display: none !important;
   }
+
+  div.inbox {
+    display: none !important;
+  }
 }
 
-@media (min-width: 768px) {
+@media all and (min-width: 768px) {
   .ui.computer.only.grid, .ui.grid >.computer.only.row {
     display: block!important;
   }
