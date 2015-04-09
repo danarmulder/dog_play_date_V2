@@ -1,7 +1,5 @@
 # PuppyLove App
 
-[![Build Status](https://travis-ci.org/roryg11/dog_play_date_V2.svg?branch=master)](https://travis-ci.org/roryg11/dog_play_date_V2)
-
 This Application is built on Rails 4.1.8, Ruby version 2.1.3.  You can see this application live at puppyplaydate.co.
 
 We used Rest Client and Nokogiri for webscraping for dog park information.  We created a rake task to perform this web scraping and seed the database.  The rake task can be completed with:
