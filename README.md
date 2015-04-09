@@ -1,6 +1,6 @@
 # PuppyLove App
 
-This Application is built on Rails 4.1.8, Ruby version 2.1.3.  You can see this application live at puppyplaydate.co.
+This Application is built on Rails 4.1.8, Ruby version 2.1.3.  You can see this application live at puppyplaydate.co. Sign in with email: test@test.com, password: 12345678 to see the full functionality. 
 
 We used Rest Client and Nokogiri for webscraping for dog park information.  We created a rake task to perform this web scraping and seed the database.  The rake task can be completed with:
 rake scrape:parks
